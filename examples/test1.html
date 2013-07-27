@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>GameCore :: Test #1</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../dist/gamecore.js"></script>
+    <style type="text/css">
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    </style>
+</head>
+<body>
+    <h1>Testing text rendering</h1>
+    <div id="renderer"></div>
+    <div>
+        
+    </div>
+</body>
+<script type="text/javascript">
+var gc ,text1, text2, text3;
+
+gc = new GameCore();
+gc.renderer = document.getElementById('renderer');
+
+text1 = new GameCore.exports.UI.Text({
+    bbox:true, 
+    text:"Привет, мир!",
+    stroke:true,
+    x:45,
+    y:10,
+    alpha:0.6
+});
+text1.parent = gc.stage;
+
+text2 = new GameCore.exports.UI.Text({
+    text:"Hello, world!",
+    x:10,
+    y:45
+});
+gc.stage.addChild(text2);
+</script>
+</html>
