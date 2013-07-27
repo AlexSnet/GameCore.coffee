@@ -3,6 +3,7 @@
     <title>GameCore :: Test #1</title>
     <meta charset="utf-8">
     <script type="text/javascript" src="../dist/gamecore.js"></script>
+    <script type="text/javascript" src="./libs/stats.js/build/stats.min.js"></script>
     <style type="text/css">
     * {
         padding: 0;
@@ -14,7 +15,7 @@
     <h1>Testing text rendering</h1>
     <div id="renderer"></div>
     <div>
-        
+
     </div>
 </body>
 <script type="text/javascript">
@@ -39,5 +40,15 @@ text2 = new GameCore.exports.UI.Text({
     y:45
 });
 gc.stage.addChild(text2);
+
+// Adding stats.js
+var stats = new Stats();
+stats.setMode(0);
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.right = '0px';
+stats.domElement.style.top = '0px';
+document.body.appendChild( stats.domElement );
+gc.addRenderTickHook('stats.js', function(){stats.update()});
+
 </script>
 </html>

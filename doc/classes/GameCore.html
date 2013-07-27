@@ -214,6 +214,26 @@ renderer</p>
   </li>
   <li>
     <span class='signature'>
+      <a href='#addRenderTickHook-instance'>
+        - (void) <strong>addRenderTickHook</strong>(name, functor)
+      </a>
+    </span>
+    <span class='desc'>
+      Add render tick hook
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#removeRenderTickHook-instance'>
+        - (void) <strong>removeRenderTickHook</strong>(name)
+      </a>
+    </span>
+    <span class='desc'>
+      Removes render tick hook
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#_onEnterFrame-instance'>
         - (void) <strong>_onEnterFrame</strong>(gci = @undefined)
       </a>
@@ -336,6 +356,54 @@ renderer</p>
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='addRenderTickHook-instance'>
+      - (void) <strong>addRenderTickHook</strong>(name, functor)
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    Render tick hooks calls after stage was rendered
+  </div>
+  <p>Add render tick hook</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>name</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+    </li>
+    <li>
+      <span class='name'>functor</span>
+      <span class='type'>
+        (<tt>Function</tt>)
+      </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='removeRenderTickHook-instance'>
+      - (void) <strong>removeRenderTickHook</strong>(name)
+    </p>
+    <div class='docstring'>
+  <p>Removes render tick hook</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>name</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='_onEnterFrame-instance'>
       - (void) <strong>_onEnterFrame</strong>(gci = @undefined)
     </p>
@@ -356,7 +424,7 @@ renderer</p>
     </div>
     <div id='footer'>
   Generated on
-  Sun Jul 28 2013 01:40:32 GMT+0400 (MSK)
+  Sun Jul 28 2013 02:36:27 GMT+0400 (MSK)
   by
   <a href='https://github.com/netzpirat/codo' title='CoffeeScript API documentation generator'>Codo</a>
   v1.7.0

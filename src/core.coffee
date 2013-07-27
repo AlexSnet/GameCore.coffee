@@ -57,7 +57,11 @@ class GameCore
         Setting up framerate
         ###
         @setFramerate()
-        @_frame = 0
+
+        ###
+        Render tick hooks
+        ###
+        @_render_tick_hooks = {}
 
         ###
         Stages map
@@ -196,6 +200,26 @@ class GameCore
         canvas
 
     ###
+    Add render tick hook
+
+    @method addRenderTickHook
+    @param {String} name
+    @param {Function} functor
+
+    @note Render tick hooks calls after stage was rendered
+    ###
+    addRenderTickHook: (name, functor)->
+        @_render_tick_hooks[name] = functor
+
+    ###
+    Removes render tick hook
+    @method removeRenderTickHook
+    @param {String} name
+    ###
+    removeRenderTickHook: (name)->
+        delete @_render_tick_hooks[name]
+
+    ###
     Call window's requestAnimationFrame.
     @method _onEnterFrame
     ###
@@ -207,9 +231,10 @@ class GameCore
             gci._render gci.stage
         window.onEnterFrame ()-> gci._onEnterFrame(gci)
 
-    _render: ()->
-        @_frame++
+    _render: ()-> 
         @context.render [@stage]
+        for name, hook of @_render_tick_hooks
+            hook.call()
 
 
 window.GameCore = window.GameCore or GameCore

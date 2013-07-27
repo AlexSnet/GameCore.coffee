@@ -1,0 +1,3 @@
+[submodule "examples/libs/stats.js"]
+	path = examples/libs/stats.js
+	url = https://github.com/mrdoob/stats.js.git
