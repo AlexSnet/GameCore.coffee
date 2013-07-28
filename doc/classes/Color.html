@@ -2,7 +2,7 @@
 <html>
   <head>
   <meta charset='UTF-8'>
-  <title>CoffeeScript API Documentation</title>
+  <title>GameCore.coffee Documentation</title>
   <link rel='stylesheet' href='../assets/codo.css' type='text/css'>
   <script src='../assets/codo.js'></script>
   <script src='../assets/search_data.js'></script>
@@ -11,7 +11,7 @@
     <div id='base' data-path='../'></div>
 <div id='header'>
   <div id='menu'>
-    <a href='../README.md.html' title='GameCore'>GameCore</a>
+    <a href='../README.md.html' title='GameCore.coffee'>GameCore.coffee</a>
     &raquo;
     <a href='../class_index.html' title='Index'>Index</a>
     &raquo;
@@ -114,16 +114,86 @@
           <td>src&#47;utils&#47;color.coffee</td>
         </tr>
       </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    GameCore.exports.utils.Color
+  </div>
+  <p>Color operations</p>
+</div>
+<div class='tags'>
+</div>
       <h2>Class Method Summary</h2>
       <ul class='summary'>
   <li>
     <span class='signature'>
-      <a href='#random-class'>
-        + (void) <strong>random</strong>(alpha = 255)
+      <a href='#inputToRGB-class'>
+        + (void) <strong>inputToRGB</strong>(color)
       </a>
     </span>
     <span class='desc'>
-      
+      If input is an object, force 1 into &quot;1.0&quot; to handle ratios properly String input requires &quot;1.0&quot; as input, so 1 will be treated as 1 Given a string or object, convert that input to RGB Possible string inputs: &quot;red&quot; &quot;#f00&quot; or &quot;f00&quot; &quot;#ff0000&quot; or &quot;ff0000&quot; &quot;rgb 255 0 0&quot; or &quot;rgb (255, 0, 0)&quot; &quot;rgb 1.0 0 0&quot; or &quot;rgb (1, 0, 0)&quot; &quot;rgba (255, 0, 0, 1)&quot; or &quot;rgba 255, 0, 0, 1&quot; &quot;rgba (1.0, 0, 0, 1)&quot; or &quot;rgba 1.0, 0, 0, 1&quot; &quot;hsl(0, 100%, 50%)&quot; or &quot;hsl 0 100% 50%&quot; &quot;hsla(0, 100%, 50%, 1)&quot; or &quot;hsla 0 100% 50%, 1&quot; &quot;hsv(0, 100%, 100%)&quot; or &quot;hsv 0 100% 100%&quot;
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#rgbToRgb-class'>
+        + (Object) <strong>rgbToRgb</strong>(r, g, b)
+      </a>
+    </span>
+    <span class='desc'>
+      Handle bounds / percentage checking to conform to CSS color spec <a href="http://www.w3.org/TR/css3-color/">http://www.w3.org/TR/css3-color/</a>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#rgbToHsl-class'>
+        + (Object) <strong>rgbToHsl</strong>(r, g, b)
+      </a>
+    </span>
+    <span class='desc'>
+      Converts an RGB color value to HSL.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#hslToRgb-class'>
+        + (Object) <strong>hslToRgb</strong>(h, s, l)
+      </a>
+    </span>
+    <span class='desc'>
+      Converts an HSL color value to RGB.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#rgbToHsv-class'>
+        + (Object) <strong>rgbToHsv</strong>(r, g, b)
+      </a>
+    </span>
+    <span class='desc'>
+      Converts an RGB color value to HSV
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#hsvToRgb-class'>
+        + (Object) <strong>hsvToRgb</strong>(h, s, v)
+      </a>
+    </span>
+    <span class='desc'>
+      Converts an HSV color value to RGB.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#rgbToHex-class'>
+        + (String) <strong>rgbToHex</strong>(r, g, b, allow3Char = false)
+      </a>
+    </span>
+    <span class='desc'>
+      Converts an RGB color to hex
     </span>
   </li>
 </ul>
@@ -132,32 +202,448 @@
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        - (void) <strong>constructor</strong>(r = 0, g = 0, b = 0, a = 1)
+        - (void) <strong>constructor</strong>(color = "", opts = {})
       </a>
     </span>
     <span class='constructor note title'>Constructor</span>
     <span class='desc'>
-      // color name var color = new Joy.Color(&quot;red&quot;); // hexadecimal var color = new Joy.Color(&quot;#fff&quot;); // rgb var color = new Joy.Color(255, 50, 255); // rgba var color = new Joy.Color(255, 50, 255, 100); @class Color @constructor
+      
     </span>
   </li>
   <li>
     <span class='signature'>
-      <a href='#toString-instance'>
-        - (void) <strong>toString</strong>()
+      <a href='#toHsv-instance'>
+        - (Object) <strong>toHsv</strong>()
       </a>
     </span>
     <span class='desc'>
       
     </span>
   </li>
+  <li>
+    <span class='signature'>
+      <a href='#toHsvString-instance'>
+        - (String) <strong>toHsvString</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toHsl-instance'>
+        - (Object) <strong>toHsl</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toHslString-instance'>
+        - (String) <strong>toHslString</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toHex-instance'>
+        - (String) <strong>toHex</strong>(allow3Char = false)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toHexString-instance'>
+        - (String) <strong>toHexString</strong>(allow3Char = false)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toRgb-instance'>
+        - (Object) <strong>toRgb</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toRgbString-instance'>
+        - (String) <strong>toRgbString</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toPercentageRgb-instance'>
+        - (void) <strong>toPercentageRgb</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toPercentageRgbString-instance'>
+        - (void) <strong>toPercentageRgbString</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toName-instance'>
+        - (void) <strong>toName</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#toString-instance'>
+        - (void) <strong>toString</strong>(format)
+      </a>
+    </span>
+    <span class='desc'>
+      Outputing current color as string
+    </span>
+  </li>
 </ul>
       <h2>Class Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='random-class'>
-      + (void) <strong>random</strong>(alpha = 255)
+    <p class='signature' id='inputToRGB-class'>
+      + (void) <strong>inputToRGB</strong>(color)
     </p>
-    <div class='tags'>
+    <div class='docstring'>
+  <p>If input is an object, force 1 into &quot;1.0&quot; to handle ratios properly
+String input requires &quot;1.0&quot; as input, so 1 will be treated as 1</p><p>Given a string or object, convert that input to RGB
+Possible string inputs:</p><p>&quot;red&quot;
+&quot;#f00&quot; or &quot;f00&quot;
+&quot;#ff0000&quot; or &quot;ff0000&quot;
+&quot;rgb 255 0 0&quot; or &quot;rgb (255, 0, 0)&quot;
+&quot;rgb 1.0 0 0&quot; or &quot;rgb (1, 0, 0)&quot;
+&quot;rgba (255, 0, 0, 1)&quot; or &quot;rgba 255, 0, 0, 1&quot;
+&quot;rgba (1.0, 0, 0, 1)&quot; or &quot;rgba 1.0, 0, 0, 1&quot;
+&quot;hsl(0, 100%, 50%)&quot; or &quot;hsl 0 100% 50%&quot;
+&quot;hsla(0, 100%, 50%, 1)&quot; or &quot;hsla 0 100% 50%, 1&quot;
+&quot;hsv(0, 100%, 100%)&quot; or &quot;hsv 0 100% 100%&quot;</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>color</span>
+      <span class='type'>
+        (<tt>String | Color</tt>)
+      </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='rgbToRgb-class'>
+      + (Object) <strong>rgbToRgb</strong>(r, g, b)
+    </p>
+    <div class='docstring'>
+  <p>Handle bounds / percentage checking to conform to CSS color spec
+<a href="http://www.w3.org/TR/css3-color/">http://www.w3.org/TR/css3-color/</a></p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>r</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>g</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{ r, g, b } in 0..255</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='rgbToHsl-class'>
+      + (Object) <strong>rgbToHsl</strong>(r, g, b)
+    </p>
+    <div class='docstring'>
+  <p>Converts an RGB color value to HSL.</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>r</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>g</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{ h, s, l } in 0..1</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='hslToRgb-class'>
+      + (Object) <strong>hslToRgb</strong>(h, s, l)
+    </p>
+    <div class='docstring'>
+  <p>Converts an HSL color value to RGB.</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>h</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..360 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>s</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..100 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>l</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..100 or 0..1</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{ r, g, b } in 0..255</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='rgbToHsv-class'>
+      + (Object) <strong>rgbToHsv</strong>(r, g, b)
+    </p>
+    <div class='docstring'>
+  <p>Converts an RGB color value to HSV</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>r</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>g</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255 or 0..1</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{ h, s, v } in 0..1</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='hsvToRgb-class'>
+      + (Object) <strong>hsvToRgb</strong>(h, s, v)
+    </p>
+    <div class='docstring'>
+  <p>Converts an HSV color value to RGB.</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>h</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..360 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>s</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..100 or 0..1</span>
+    </li>
+    <li>
+      <span class='name'>v</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..100 or 0..1</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{ r, g, b } in 0..255</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='rgbToHex-class'>
+      + (String) <strong>rgbToHex</strong>(r, g, b, allow3Char = false)
+    </p>
+    <div class='docstring'>
+  <p>Converts an RGB color to hex</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>r</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255</span>
+    </li>
+    <li>
+      <span class='name'>g</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>in 0..255</span>
+    </li>
+    <li>
+      <span class='name'>allow3Char</span>
+      <span class='type'>
+        (<tt>Boolean</tt>)
+      </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>String</tt>)
+      &mdash;
+      <span class='desc'>3 or 6 character hex</span>
+    </li>
+  </ul>
 </div>
   </div>
 </div>
@@ -165,43 +651,23 @@
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      - (void) <strong>constructor</strong>(r = 0, g = 0, b = 0, a = 1)
+      - (void) <strong>constructor</strong>(color = "", opts = {})
     </p>
-    <div class='docstring'>
-  <p>// color name
-var color = new Joy.Color(&quot;red&quot;);</p><p>// hexadecimal
-var color = new Joy.Color(&quot;#fff&quot;);</p><p>// rgb
-var color = new Joy.Color(255, 50, 255);</p><p>// rgba
-var color = new Joy.Color(255, 50, 255, 100);</p><p>@class Color
-@constructor</p>
-</div>
-<div class='tags'>
+    <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>hexOrRed</span>
+      <span class='name'>hex</span>
       <span class='type'>
-        (<tt>String | Number</tt>)
+        (<tt>String | Color</tt>)
       </span>
       &mdash;
-      <span class='desc'>hexadecimal color (String), or red (Number)</span>
+      <span class='desc'>color string or color name or Color instance</span>
     </li>
     <li>
-      <span class='name'>green</span>
+      <span class='name'>options</span>
       <span class='type'>
-        (<tt>Number</tt>)
-      </span>
-    </li>
-    <li>
-      <span class='name'>blue</span>
-      <span class='type'>
-        (<tt>Number</tt>)
-      </span>
-    </li>
-    <li>
-      <span class='name'>alpha</span>
-      <span class='type'>
-        (<tt>Number</tt>)
+        (<tt>Object</tt>)
       </span>
     </li>
   </ul>
@@ -211,17 +677,175 @@ var color = new Joy.Color(255, 50, 255, 100);</p><p>@class Color
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='toString-instance'>
-      - (void) <strong>toString</strong>()
+    <p class='signature' id='toHsv-instance'>
+      - (Object) <strong>toHsv</strong>()
     </p>
     <div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{h,s,v,a}</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toHsvString-instance'>
+      - (String) <strong>toHsvString</strong>()
+    </p>
+    <div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span><tt>String</tt></li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toHsl-instance'>
+      - (Object) <strong>toHsl</strong>()
+    </p>
+    <div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{h,s,l,a}</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toHslString-instance'>
+      - (String) <strong>toHslString</strong>()
+    </p>
+    <div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span><tt>String</tt></li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toHex-instance'>
+      - (String) <strong>toHex</strong>(allow3Char = false)
+    </p>
+    <div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>allow3Char</span>
+      <span class='type'>
+        (<tt>Boolean</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>defaults=false</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span><tt>String</tt></li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toHexString-instance'>
+      - (String) <strong>toHexString</strong>(allow3Char = false)
+    </p>
+    <div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>allow3Char</span>
+      <span class='type'>
+        (<tt>Boolean</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>defaults=false</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>String</tt>)
+      &mdash;
+      <span class='desc'><h1>+ toHex()</h1></span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toRgb-instance'>
+      - (Object) <strong>toRgb</strong>()
+    </p>
+    <div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'>{r,g,b,a}</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toRgbString-instance'>
+      - (String) <strong>toRgbString</strong>()
+    </p>
+    <div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span><tt>String</tt></li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toPercentageRgb-instance'>
+      - (void) <strong>toPercentageRgb</strong>()
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toPercentageRgbString-instance'>
+      - (void) <strong>toPercentageRgbString</strong>()
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toName-instance'>
+      - (void) <strong>toName</strong>()
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='toString-instance'>
+      - (void) <strong>toString</strong>(format)
+    </p>
+    <div class='docstring'>
+  <p>Outputing current color as string</p>
+</div>
+<div class='tags'>
 </div>
   </div>
 </div>
     </div>
     <div id='footer'>
   Generated on
-  Sun Jul 28 2013 02:36:27 GMT+0400 (MSK)
+  Sun Jul 28 2013 17:55:13 GMT+0400 (MSK)
   by
   <a href='https://github.com/netzpirat/codo' title='CoffeeScript API documentation generator'>Codo</a>
   v1.7.0

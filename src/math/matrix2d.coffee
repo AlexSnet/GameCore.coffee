@@ -1,3 +1,9 @@
+###
+2D Matrix manipulations
+
+@note GameCore.exports.Math.Matrix2D
+
+###
 class Matrix2D
     ###
     Based on [EaselJS](https://github.com/CreateJS/EaselJS/) Matrix2D implementation.

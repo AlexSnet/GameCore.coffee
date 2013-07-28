@@ -1,3 +1,9 @@
+###
+2D Vector manipulations
+
+@note GameCore.exports.Math.Vector2D
+
+###
 class Vector2d
     constructor: (@x=0, @y=0) ->
         ###

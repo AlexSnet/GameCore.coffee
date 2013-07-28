@@ -42,6 +42,13 @@ class GameCore
         @id = @options.id or UUID.generateUniqueId()
 
         ###
+        Checing for runtime errors
+        ###
+        if support.ERRORS
+            for error in support.ERRORS
+                throw error
+
+        ###
         Setting up a canvas.
         If canvas doesn't present in options then create it.
         ###
@@ -241,5 +248,6 @@ window.GameCore = window.GameCore or GameCore
 GameCore.exports =
     UI: require "./ui/exports"
     Math: require "./math/exports"
+    Utils: require "./utils/exports"
 
 module.exports = GameCore

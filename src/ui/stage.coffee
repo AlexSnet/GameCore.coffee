@@ -1,5 +1,9 @@
 container = require "../ui/container"
 
+###
+Stage container
+@note GameCore.exports.ui.Stage
+###
 class Stage extends container
     constructor:(options={})->
         super options

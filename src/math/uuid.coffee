@@ -1,3 +1,9 @@
+###
+Unique ID generator
+
+@note GameCore.exports.Math.UUID
+
+###
 class UUID
     ###
     @method generateUniqueId

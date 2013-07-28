@@ -29,7 +29,25 @@ window.onEnterFrame = (() ->
         window.setTimeout callback, 1000 / window._FPS
 )()
 
+
+###
+Checking for ability to work
+###
+ERRORS = []
+# 1. Do we have a mechanism for binding implicit get/set?
+if not Object.defineProperty
+    ERRORS.append "Browser doesnt support Object.defineProperty."
+
+# 2. Do we have Canvas2D available?
+if not document.createElement("canvas").getContext
+    ERRORS.append "Browser doesnt support <canvas> and the Canvas2D API."
+
+
 module.exports = 
+    ###
+    ###
+    ERRORS: ERRORS
+
     ###
     Browser's user-agent string
     @attribute userAgent

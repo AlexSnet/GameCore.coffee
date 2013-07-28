@@ -2,7 +2,7 @@
 <html>
   <head>
   <meta charset='UTF-8'>
-  <title>CoffeeScript API Documentation</title>
+  <title>GameCore.coffee Documentation</title>
   <link rel='stylesheet' href='../assets/codo.css' type='text/css'>
   <script src='../assets/codo.js'></script>
   <script src='../assets/search_data.js'></script>
@@ -11,7 +11,7 @@
     <div id='base' data-path='../'></div>
 <div id='header'>
   <div id='menu'>
-    <a href='../README.md.html' title='GameCore'>GameCore</a>
+    <a href='../README.md.html' title='GameCore.coffee'>GameCore.coffee</a>
     &raquo;
     <a href='../class_index.html' title='Index'>Index</a>
     &raquo;
@@ -111,13 +111,332 @@
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>src&#47;math&#47;random.coffee</td>
+          <td>src&#47;math&#47;math.coffee</td>
         </tr>
       </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    GameCore.exports.Math.Math
+  </div>
+  <p>Mathematical functions</p>
+</div>
+<div class='tags'>
+  <h3>See also:</h3>
+  <ul class='see'>
+    <li>
+      <a href='http://docs.closure-library.googlecode.com/git-history/418ef20b29e8f3ebb5121266ec7206ae6943d28d/closure_goog_math_math.js.source.html'>http:&#47;&#47;docs.closure-library.googlecode.com&#47;git-history&#47;418ef20b29e8f3ebb5121266ec7206ae6943d28d&#47;closure_goog_math_math.js.source.html</a>
+    </li>
+  </ul>
+</div>
+      <h2>Class Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#clamp-class'>
+        + (Number) <strong>clamp</strong>(num, min, max)
+      </a>
+    </span>
+    <span class='desc'>
+      Clamping a number into a limits
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#clamp01-class'>
+        + (Number) <strong>clamp01</strong>(num)
+      </a>
+    </span>
+    <span class='desc'>
+      Alias to @clamp(num, 0, 1)
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#randomInt-class'>
+        + (Number) <strong>randomInt</strong>(min = 0, max = 100)
+      </a>
+    </span>
+    <span class='desc'>
+      Returns a random integer greater than or equal to $min and less than $max.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#modulo-class'>
+        + (number) <strong>modulo</strong>(a, b)
+      </a>
+    </span>
+    <span class='desc'>
+      The % operator in JavaScript returns the remainder of a / b, but differs from some other languages in that the result will have the same sign as the dividend.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#lerp-class'>
+        + (number) <strong>lerp</strong>(a, b, x)
+      </a>
+    </span>
+    <span class='desc'>
+      Performs linear interpolation between values a and b.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#nearlyEquals-class'>
+        + (Boolean) <strong>nearlyEquals</strong>(a, b, opt_tolerance = 0.000001)
+      </a>
+    </span>
+    <span class='desc'>
+      Tests whether the two values are equal to each other, within a certain tolerance to adjust for floating pount errors.
+    </span>
+  </li>
+</ul>
+      <h2>Class Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='clamp-class'>
+      + (Number) <strong>clamp</strong>(num, min, max)
+    </p>
+    <div class='docstring'>
+  <p>Clamping a number into a limits</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>num</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+    </li>
+    <li>
+      <span class='name'>min</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+    </li>
+    <li>
+      <span class='name'>max</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span><tt>Number</tt></li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='clamp01-class'>
+      + (Number) <strong>clamp01</strong>(num)
+    </p>
+    <div class='docstring'>
+  <p>Alias to @clamp(num, 0, 1)</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>num</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span><tt>Number</tt></li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='randomInt-class'>
+      + (Number) <strong>randomInt</strong>(min = 0, max = 100)
+    </p>
+    <div class='docstring'>
+  <p>Returns a random integer greater than or equal to $min and less than $max.</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>a</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>The lower bound for the random integer inclusive (default=0).</span>
+    </li>
+    <li>
+      <span class='name'>a</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>The upper bound for the random integer exlusive (default=1000).</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Number</tt>)
+      &mdash;
+      <span class='desc'>A random integer N such that $min &lt;= N &lt; $max.</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='modulo-class'>
+      + (number) <strong>modulo</strong>(a, b)
+    </p>
+    <div class='docstring'>
+  <p>The % operator in JavaScript returns the remainder of a / b, but differs from
+some other languages in that the result will have the same sign as the
+dividend. For example, -1 % 8 == -1, whereas in some other languages
+(such as Python) the result would be 7. This function emulates the more
+correct modulo behavior, which is useful for certain applications such as
+calculating an offset index in a circular list.</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>a</span>
+      <span class='type'>
+        (<tt>number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>The dividend.</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>The divisor.</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>number</tt>)
+      &mdash;
+      <span class='desc'>a % b where the result is between 0 and b (either 0 &lt;= x &lt; b or b &lt; x &lt;= 0, depending on the sign of b).</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='lerp-class'>
+      + (number) <strong>lerp</strong>(a, b, x)
+    </p>
+    <div class='docstring'>
+  <p>Performs linear interpolation between values a and b. Returns the value
+between a and b proportional to x (when x is between 0 and 1. When x is
+outside this range, the return value is a linear extrapolation).</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>a</span>
+      <span class='type'>
+        (<tt>number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>A number.</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>A number.</span>
+    </li>
+    <li>
+      <span class='name'>x</span>
+      <span class='type'>
+        (<tt>number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>The proportion between a and b.</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>number</tt>)
+      &mdash;
+      <span class='desc'>The interpolated value between a and b.</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='nearlyEquals-class'>
+      + (Boolean) <strong>nearlyEquals</strong>(a, b, opt_tolerance = 0.000001)
+    </p>
+    <div class='docstring'>
+  <p>Tests whether the two values are equal to each other, within a certain
+tolerance to adjust for floating pount errors.</p><pre><code>Defaults to 0.000001. If specified, should be greater than 0.</code></pre>
+
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>a</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>A number.</span>
+    </li>
+    <li>
+      <span class='name'>b</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>A number.</span>
+    </li>
+    <li>
+      <span class='name'>opt_tolerance</span>
+      <span class='type'>
+        (<tt>Number=</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Optional tolerance range.</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Boolean</tt>)
+      &mdash;
+      <span class='desc'>Whether $a and $b are nearly equal.</span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
     </div>
     <div id='footer'>
   Generated on
-  Sun Jul 28 2013 02:36:27 GMT+0400 (MSK)
+  Sun Jul 28 2013 17:55:13 GMT+0400 (MSK)
   by
   <a href='https://github.com/netzpirat/codo' title='CoffeeScript API documentation generator'>Codo</a>
   v1.7.0

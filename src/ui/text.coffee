@@ -1,4 +1,5 @@
 Widget = require "./widget"
+Color = require "../utils/color"
 
 ###
 Object.defineProperty this, BASELINE
@@ -50,10 +51,14 @@ BASELINE =
 
 #  Default values
 DEFAULT_FONT = "Normal 12px Verdana"
-DEFAULT_COLOR = "#000000"
+DEFAULT_COLOR = new Color("purple")
 DEFAULT_ALIGN = "left"
 DEFAULT_BASELINE = BASELINE.TOP
 
+###
+Base Text widget
+@note GameCore.exports.ui.Text
+###
 class Text extends Widget
     ###
     @class Text
@@ -109,9 +114,11 @@ class Text extends Widget
         @default "#000000"
         @type {String, Color}
         ###
-        @_color = options.color or DEFAULT_COLOR
         Object.defineProperty this, "color",
             get: ->
+                if not @_color
+                    @color = options.color or DEFAULT_COLOR
+
                 @_color
 
             set: (color) ->
@@ -180,7 +187,7 @@ class Text extends Widget
         div.style.left = "-100px"
         div.style.font = font
 
-        console.log div.style.fontFamily, div.style.fontWeight, div.style.fontSize
+        # console.log div.style.fontFamily, div.style.fontWeight, div.style.fontSize
         # div.style.fontFamily = font
         # div.style.fontWeight = (if bold then "bold" else "normal")
         # div.style.fontSize = size + "pt"

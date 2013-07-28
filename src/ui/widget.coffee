@@ -7,6 +7,8 @@ Color = require "../utils/color"
 
 ###
 Base renderable element
+
+@note GameCore.exports.ui.Widget
 ###
 class Widget
     constructor: (options={})->
@@ -128,7 +130,7 @@ class Widget
             )
         
         ctx.beginPath()
-        # ctx.scale @scale.x, @scale.y
+        ctx.scale @scale.x, @scale.y
         ctx.translate @position.x, @position.y
 
         ctx.transform mtx.m11, mtx.m12, mtx.m21, mtx.m22, mtx.dx, mtx.dy
@@ -148,7 +150,7 @@ class Widget
         ctx.setAlpha @alpha
         @_render ctx if @_render
 
-        # ctx.scale 1/tileScale.x, 1/tileScale.y
+        ctx.scale 1/@scale.x, 1/@scale.y
         ctx.translate -@position.x, -@position.y
         ctx.closePath()
 

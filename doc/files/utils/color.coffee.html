@@ -2,7 +2,7 @@
 <html>
   <head>
   <meta charset='UTF-8'>
-  <title>CoffeeScript API Documentation</title>
+  <title>GameCore.coffee Documentation</title>
   <link rel='stylesheet' href='../../assets/codo.css' type='text/css'>
   <script src='../../assets/codo.js'></script>
   <script src='../../assets/search_data.js'></script>
@@ -11,7 +11,7 @@
     <div id='base' data-path='../../'></div>
 <div id='header'>
   <div id='menu'>
-    <a href='../../README.md.html' title='GameCore'>GameCore</a>
+    <a href='../../README.md.html' title='GameCore.coffee'>GameCore.coffee</a>
     &raquo;
     <a href='../../class_index.html' title='Index'>Index</a>
     &raquo;
@@ -116,10 +116,506 @@
           <td>utils</td>
         </tr>
       </table>
+      <h2>Constant Summary</h2>
+      <dl class='constants'>
+        <dt id='CSS_INTEGER-constant'>
+          CSS_INTEGER
+          =
+          <div class='tags'>
+</div>
+        </dt>
+        <dd>
+          <pre><code class='coffee'>"[-\\+]?\\d+%?"</code></pre>
+        </dd>
+        <dt id='CSS_NUMBER-constant'>
+          CSS_NUMBER
+          =
+          <div class='tags'>
+</div>
+        </dt>
+        <dd>
+          <pre><code class='coffee'>"[-\\+]?\\d*\\.\\d+%?"</code></pre>
+        </dd>
+      </dl>
+      <h2>Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#flip-file'>
+        ? (void) <strong>flip</strong>(o)
+      </a>
+    </span>
+    <span class='desc'>
+      <code>{ &#39;name1&#39;: &#39;val1&#39; }</code> becomes <code>{ &#39;val1&#39;: &#39;name1&#39; }</code>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#bound01-file'>
+        ? (void) <strong>bound01</strong>(n, max)
+      </a>
+    </span>
+    <span class='desc'>
+      Take input from [0, n] and return it as [0, 1]
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#parseHex-file'>
+        ? (void) <strong>parseHex</strong>(val)
+      </a>
+    </span>
+    <span class='desc'>
+      Parse an integer into hex
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#isOnePointZero-file'>
+        ? (void) <strong>isOnePointZero</strong>(n)
+      </a>
+    </span>
+    <span class='desc'>
+      Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1 <a href="http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0">http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0</a>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#isPercentage-file'>
+        ? (void) <strong>isPercentage</strong>(n)
+      </a>
+    </span>
+    <span class='desc'>
+      Check to see if string passed in is a percentage
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#pad2-file'>
+        ? (void) <strong>pad2</strong>(c)
+      </a>
+    </span>
+    <span class='desc'>
+      Force a hex value to have 2 characters
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#convertToPercentage-file'>
+        ? (void) <strong>convertToPercentage</strong>(n)
+      </a>
+    </span>
+    <span class='desc'>
+      Replace a decimal with it&#39;s percentage value
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#stringInputToObject-file'>
+        ? (Object) <strong>stringInputToObject</strong>(color)
+      </a>
+    </span>
+    <span class='desc'>
+      Permissive string parsing.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.fromRatio-file'>
+        ? (void) <strong>Color.fromRatio</strong>(color, opts = {})
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.equals-file'>
+        ? (void) <strong>Color.equals</strong>(color1, color2)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.random-file'>
+        ? (void) <strong>Color.random</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.desaturate-file'>
+        ? (void) <strong>Color.desaturate</strong>(color, amount = 10)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.saturate-file'>
+        ? (void) <strong>Color.saturate</strong>(color, amount = 10)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.greyscale-file'>
+        ? (void) <strong>Color.greyscale</strong>(color)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.lighten-file'>
+        ? (void) <strong>Color.lighten</strong>(color, amount = 10)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.darken-file'>
+        ? (void) <strong>Color.darken</strong>(color, amount = 10)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.complement-file'>
+        ? (void) <strong>Color.complement</strong>(color)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.triad-file'>
+        ? (void) <strong>Color.triad</strong>(color)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.tetrad-file'>
+        ? (void) <strong>Color.tetrad</strong>(color)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.splitcomplement-file'>
+        ? (void) <strong>Color.splitcomplement</strong>(color)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.analogous-file'>
+        ? (void) <strong>Color.analogous</strong>(color, results = 6, slices = 30)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.monochromatic-file'>
+        ? (void) <strong>Color.monochromatic</strong>(color, results = 6)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.readability-file'>
+        ? (void) <strong>Color.readability</strong>(color1, color2)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.readable-file'>
+        ? (void) <strong>Color.readable</strong>(color1, color2)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#Color.mostReadable-file'>
+        ? (void) <strong>Color.mostReadable</strong>(baseColor, colorList)
+      </a>
+    </span>
+    <span class='desc'>
+      
+    </span>
+  </li>
+</ul>
+      <h2>Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='flip-file'>
+      ? (void) <strong>flip</strong>(o)
+    </p>
+    <div class='docstring'>
+  <p><code>{ &#39;name1&#39;: &#39;val1&#39; }</code> becomes <code>{ &#39;val1&#39;: &#39;name1&#39; }</code></p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='bound01-file'>
+      ? (void) <strong>bound01</strong>(n, max)
+    </p>
+    <div class='docstring'>
+  <p>Take input from [0, n] and return it as [0, 1]</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='parseHex-file'>
+      ? (void) <strong>parseHex</strong>(val)
+    </p>
+    <div class='docstring'>
+  <p>Parse an integer into hex</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='isOnePointZero-file'>
+      ? (void) <strong>isOnePointZero</strong>(n)
+    </p>
+    <div class='docstring'>
+  <p>Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
+<a href="http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0">http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0</a></p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='isPercentage-file'>
+      ? (void) <strong>isPercentage</strong>(n)
+    </p>
+    <div class='docstring'>
+  <p>Check to see if string passed in is a percentage</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='pad2-file'>
+      ? (void) <strong>pad2</strong>(c)
+    </p>
+    <div class='docstring'>
+  <p>Force a hex value to have 2 characters</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='convertToPercentage-file'>
+      ? (void) <strong>convertToPercentage</strong>(n)
+    </p>
+    <div class='docstring'>
+  <p>Replace a decimal with it&#39;s percentage value</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='stringInputToObject-file'>
+      ? (Object) <strong>stringInputToObject</strong>(color)
+    </p>
+    <div class='docstring'>
+  <p>Permissive string parsing. Take in a number of formats, and output an object
+based on detected format.</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>color</span>
+      <span class='type'>
+        (<tt>String | Color</tt>)
+      </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Object</tt>)
+      &mdash;
+      <span class='desc'><code>{ r, g, b }</code> or <code>{ h, s, l }</code> or <code>{ h, s, v}</code></span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.fromRatio-file'>
+      ? (void) <strong>Color.fromRatio</strong>(color, opts = {})
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.equals-file'>
+      ? (void) <strong>Color.equals</strong>(color1, color2)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.random-file'>
+      ? (void) <strong>Color.random</strong>()
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.desaturate-file'>
+      ? (void) <strong>Color.desaturate</strong>(color, amount = 10)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.saturate-file'>
+      ? (void) <strong>Color.saturate</strong>(color, amount = 10)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.greyscale-file'>
+      ? (void) <strong>Color.greyscale</strong>(color)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.lighten-file'>
+      ? (void) <strong>Color.lighten</strong>(color, amount = 10)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.darken-file'>
+      ? (void) <strong>Color.darken</strong>(color, amount = 10)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.complement-file'>
+      ? (void) <strong>Color.complement</strong>(color)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.triad-file'>
+      ? (void) <strong>Color.triad</strong>(color)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.tetrad-file'>
+      ? (void) <strong>Color.tetrad</strong>(color)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.splitcomplement-file'>
+      ? (void) <strong>Color.splitcomplement</strong>(color)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.analogous-file'>
+      ? (void) <strong>Color.analogous</strong>(color, results = 6, slices = 30)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.monochromatic-file'>
+      ? (void) <strong>Color.monochromatic</strong>(color, results = 6)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.readability-file'>
+      ? (void) <strong>Color.readability</strong>(color1, color2)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.readable-file'>
+      ? (void) <strong>Color.readable</strong>(color1, color2)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='Color.mostReadable-file'>
+      ? (void) <strong>Color.mostReadable</strong>(baseColor, colorList)
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+</div>
     </div>
     <div id='footer'>
   Generated on
-  Sun Jul 28 2013 02:36:27 GMT+0400 (MSK)
+  Sun Jul 28 2013 17:55:13 GMT+0400 (MSK)
   by
   <a href='https://github.com/netzpirat/codo' title='CoffeeScript API documentation generator'>Codo</a>
   v1.7.0
