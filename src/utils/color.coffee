@@ -387,9 +387,9 @@ class Color
     ###
     @inputToRGB: (color) ->
         rgb =
-          r: 0
-          g: 0
-          b: 0
+            r: 0
+            g: 0
+            b: 0
 
         a = 1
         ok = false
@@ -400,18 +400,23 @@ class Color
                 rgb = Color.rgbToRgb(color.r, color.g, color.b)
                 ok = true
                 format = (if String(color.r).substr(-1) is "%" then "prgb" else "rgb")
+
             else if color.hasOwnProperty("h") and color.hasOwnProperty("s") and color.hasOwnProperty("v")
                 color.s = convertToPercentage(color.s)
                 color.v = convertToPercentage(color.v)
+                
                 rgb = Color.hsvToRgb(color.h, color.s, color.v)
                 ok = true
                 format = "hsv"
+
             else if color.hasOwnProperty("h") and color.hasOwnProperty("s") and color.hasOwnProperty("l")
                 color.s = convertToPercentage(color.s)
                 color.l = convertToPercentage(color.l)
+
                 rgb = Color.hslToRgb(color.h, color.s, color.l)
                 ok = true
                 format = "hsl"
+
             a = color.a  if color.hasOwnProperty("a")
         a = parseFloat(a)
 
@@ -519,6 +524,7 @@ class Color
         else
             q = (if l < 0.5 then l * (1 + s) else l + s - l * s)
             p = 2 * l - q
+
             r = hue2rgb(p, q, h + 1 / 3)
             g = hue2rgb(p, q, h)
             b = hue2rgb(p, q, h - 1 / 3)
@@ -555,11 +561,11 @@ class Color
         else
             switch max
                 when r
-                  h = (g - b) / d + ((if g < b then 6 else 0))
+                    h = (g - b) / d + ((if g < b then 6 else 0))
                 when g
-                  h = (b - r) / d + 2
+                    h = (b - r) / d + 2
                 when b
-                  h = (r - g) / d + 4
+                    h = (r - g) / d + 4
             h /= 6
 
         h: h
@@ -579,15 +585,18 @@ class Color
         h = bound01(h, 360) * 6
         s = bound01(s, 100)
         v = bound01(v, 100)
+
         i = Math.floor(h)
         f = h - i
         p = v * (1 - s)
         q = v * (1 - f * s)
         t = v * (1 - (1 - f) * s)
         mod = i % 6
+        
         r = [v, q, p, p, t, v][mod]
         g = [t, v, v, q, p, p][mod]
         b = [p, p, t, v, v, q][mod]
+        
         r: r * 255
         g: g * 255
         b: b * 255
@@ -639,51 +648,51 @@ stringInputToObject = (color) ->
     # This way the result will be the same whether the Color is initialized with string or object.
     match = undefined
     if match = matchers.rgb.exec(color)
-      return (
-        r: match[1]
-        g: match[2]
-        b: match[3]
-      )
+        return (
+            r: match[1]
+            g: match[2]
+            b: match[3]
+        )
     if match = matchers.rgba.exec(color)
-      return (
-        r: match[1]
-        g: match[2]
-        b: match[3]
-        a: match[4]
-      )
+        return (
+            r: match[1]
+            g: match[2]
+            b: match[3]
+            a: match[4]
+        )
     if match = matchers.hsl.exec(color)
-      return (
-        h: match[1]
-        s: match[2]
-        l: match[3]
-      )
+        return (
+            h: match[1]
+            s: match[2]
+            l: match[3]
+        )
     if match = matchers.hsla.exec(color)
-      return (
-        h: match[1]
-        s: match[2]
-        l: match[3]
-        a: match[4]
-      )
+        return (
+            h: match[1]
+            s: match[2]
+            l: match[3]
+            a: match[4]
+        )
     if match = matchers.hsv.exec(color)
-      return (
-        h: match[1]
-        s: match[2]
-        v: match[3]
-      )
+        return (
+            h: match[1]
+            s: match[2]
+            v: match[3]
+        )
     if match = matchers.hex6.exec(color)
-      return (
-        r: parseHex(match[1])
-        g: parseHex(match[2])
-        b: parseHex(match[3])
-        format: (if named then "name" else "hex")
-      )
+        return (
+            r: parseHex(match[1])
+            g: parseHex(match[2])
+            b: parseHex(match[3])
+            format: (if named then "name" else "hex")
+        )
     if match = matchers.hex3.exec(color)
-      return (
-        r: parseHex(match[1] + "" + match[1])
-        g: parseHex(match[2] + "" + match[2])
-        b: parseHex(match[3] + "" + match[3])
-        format: (if named then "name" else "hex")
-      )
+        return (
+            r: parseHex(match[1] + "" + match[1])
+            g: parseHex(match[2] + "" + match[2])
+            b: parseHex(match[3] + "" + match[3])
+            format: (if named then "name" else "hex")
+        )
     false
 
 Color.fromRatio = (color, opts={}) ->
@@ -704,9 +713,9 @@ Color.equals = (color1, color2) ->
 
 Color.random = ->
     Color.fromRatio
-      r: Math.random()
-      g: Math.random()
-      b: Math.random()
+        r: Math.random()
+        g: Math.random()
+        b: Math.random()
 
 
 Color.desaturate = (color, amount=10) ->
@@ -803,8 +812,8 @@ Color.analogous = (color, results=6, slices=30) ->
     ret = [new Color(color)]
     hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360
     while --results
-      hsl.h = (hsl.h + part) % 360
-      ret.push(new Color hsl)
+        hsl.h = (hsl.h + part) % 360
+        ret.push(new Color hsl)
     ret
 
 Color.monochromatic = (color, results=6) ->
@@ -815,12 +824,12 @@ Color.monochromatic = (color, results=6) ->
     ret = []
     modification = 1 / results
     while results--
-      ret.push Color(
-        h: h
-        s: s
-        v: v
-      )
-      v = (v + modification) % 1
+        ret.push Color(
+            h: h
+            s: s
+            v: v
+        )
+        v = (v + modification) % 1
     ret
 
 Color.readability = (color1, color2) ->
@@ -844,14 +853,14 @@ Color.mostReadable = (baseColor, colorList) ->
     i = 0
 
     while i < colorList.length
-      readability = Color.readability(baseColor, colorList[i])
-      readable = readability.brightness > 125 and readability.color > 500
-      score = 3 * (readability.brightness / 125) + (readability.color / 500)
-      if (readable and not bestIsReadable) or (readable and bestIsReadable and score > bestScore) or ((not readable) and (not bestIsReadable) and score > bestScore)
-        bestIsReadable = readable
-        bestScore = score
-        bestColor = new Color colorList[i]
-      i++
+        readability = Color.readability(baseColor, colorList[i])
+        readable = readability.brightness > 125 and readability.color > 500
+        score = 3 * (readability.brightness / 125) + (readability.color / 500)
+        if (readable and not bestIsReadable) or (readable and bestIsReadable and score > bestScore) or ((not readable) and (not bestIsReadable) and score > bestScore)
+            bestIsReadable = readable
+            bestScore = score
+            bestColor = new Color colorList[i]
+        i++
     bestColor
 
 module.exports = Color
