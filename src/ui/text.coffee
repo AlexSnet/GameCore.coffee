@@ -1,5 +1,6 @@
 Widget = require "./widget"
 Color = require "../utils/color"
+Font = require "../utils/font"
 
 ###
 Object.defineProperty this, BASELINE
@@ -50,8 +51,8 @@ BASELINE =
 
 
 #  Default values
-DEFAULT_FONT = "Normal 12px Verdana"
-DEFAULT_COLOR = new Color("purple")
+DEFAULT_FONT = new Font()
+DEFAULT_COLOR = new Color("black")
 DEFAULT_ALIGN = "left"
 DEFAULT_BASELINE = BASELINE.TOP
 
@@ -122,7 +123,7 @@ class Text extends Widget
                 @_color
 
             set: (color) ->
-                @_color = color.toString()
+                @_color = if typeof color is "string" then new Color(color) else color
 
             configurable: true
 
@@ -156,10 +157,10 @@ class Text extends Widget
         @styleMethod = "fillStyle"
 
     _render: (ctx) ->
-        ctx.font = @font
+        ctx.font = @font.toString()
         ctx.textAlign = @align
         ctx.textBaseline = @baseline
-        ctx[@styleMethod] = @color
+        ctx[@styleMethod] = @color.toString()
         ctx[@fillMethod] @text, 0, 0
         @getMeasure ctx
 
@@ -185,7 +186,7 @@ class Text extends Widget
         div.style.position = "absolute"
         div.style.top = "-100px"
         div.style.left = "-100px"
-        div.style.font = font
+        div.style.font = font.toString()
 
         # console.log div.style.fontFamily, div.style.fontWeight, div.style.fontSize
         # div.style.fontFamily = font

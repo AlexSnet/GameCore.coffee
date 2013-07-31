@@ -695,6 +695,11 @@ stringInputToObject = (color) ->
         )
     false
 
+    readable: (color)->
+        Color.readable @, color
+
+    
+
 Color.fromRatio = (color, opts={}) ->
     if typeof color is "object"
         newColor = {}
