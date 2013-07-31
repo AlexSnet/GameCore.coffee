@@ -85,8 +85,16 @@
 gc.renderer = document.body
 gc.fullScreen = true
 
+font = new GameCore.exports.Utils.Font
+  src : "./CaesarDressing.woff"
+  size: 24
+
+color = new GameCore.exports.Utils.Color('magenta')
+  
 text1 = new GameCore.exports.UI.Text
   text:"Hello, world!"
+  font: font
+  color: color
   x: gc.width/2
   y: gc.height/2
   parent: gc.stage
