@@ -1,7 +1,8 @@
-context2d = require "./core/context/2d"
-support = require "./core/support"
-UUID = require "./math/uuid"
-Stage = require "./ui/stage"
+context2d = require "./context/2d"
+support = require "./support"
+Triggerable = require "./triggerable"
+UUID = require "../math/uuid"
+Stage = require "../ui/stage"
 
 ###
 Game Core base class
@@ -23,7 +24,7 @@ Game Core base class
     gc.fullScreen = true
 
 ###
-class GameCore
+class GameCore extends Triggerable
     ###
     GameCore instancec archive
     ###
@@ -35,6 +36,7 @@ class GameCore
     @param {Object} options
     ###
     constructor: (@options={}) ->
+        super @options
         ###
         In the first case we need to generate id for new instance, if it not
          present in options.
@@ -242,12 +244,5 @@ class GameCore
         @context.render [@stage]
         for name, hook of @_render_tick_hooks
             hook.call()
-
-
-window.GameCore = window.GameCore or GameCore
-GameCore.exports =
-    UI: require "./ui/exports"
-    Math: require "./math/exports"
-    Utils: require "./utils/exports"
 
 module.exports = GameCore

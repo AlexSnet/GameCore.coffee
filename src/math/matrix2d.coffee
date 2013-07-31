@@ -5,6 +5,16 @@
 
 ###
 class Matrix2D
+    ###           
+    Multiplier for converting degrees to radians. Used internally by Matrix2D.
+
+    @attribute DEG_TO_RAD
+    @static
+    @readonly
+    @return {Number}
+    ###
+    @DEG_TO_RAD:  Math.PI / 180
+
     ###
     Based on [EaselJS](https://github.com/CreateJS/EaselJS/) Matrix2D implementation.
 
@@ -130,16 +140,7 @@ class Matrix2D
         @m11 = @m22 = 1
         @m12 = @m21 = @dx = @dy = 0
         @
-
-    ###           
-    Multiplier for converting degrees to radians. Used internally by Matrix2D.
-
-    @attribute DEG_TO_RAD
-    @static
-    @readonly
-    @return {Number}
-    ###
-    @DEG_TO_RAD:  Math.PI / 180
+        
     @identity: new Matrix2D(1, 0, 0, 1, 0, 0)
 
 module.exports = Matrix2D

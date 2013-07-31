@@ -1,5 +1,5 @@
-Core = require "../core"
 UUID = require "../math/uuid"
+Triggerable = require "../core/triggerable"
 Vector2d = require "../math/vector2d"
 Matrix2d = require "../math/matrix2d"
 Support = require "../core/support"
@@ -10,9 +10,10 @@ Base renderable element
 
 @note GameCore.exports.ui.Widget
 ###
-class Widget
+class Widget extends Triggerable
     constructor: (options={})->
         @id = UUID.generateUniqueId()
+        super options
 
         ###
         @attribute pivot
@@ -113,11 +114,11 @@ class Widget
         @drawBoundingBox = options.bbox if options.bbox
 
     render: (ctx)->
-        bit =
+        bit = 
             false: -1
             true: 1
 
-        mtx = @_matrix.clone().identity().appendTransform(
+        mtx = Matrix2d.identity.appendTransform(
             @position.x + @width * (@flipX + 0),
             @position.y + @height * (@flipY + 0),
             @scale.x * bit[not @flipX],
@@ -128,6 +129,7 @@ class Widget
             @pivot.x,
             @pivot.y
             )
+        # console.log @_matrix.clone().identity(), mtx
         
         ctx.beginPath()
         ctx.scale @scale.x, @scale.y
