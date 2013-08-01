@@ -3,7 +3,7 @@ Inspired by TinyColor
 @see https://github.com/bgrins/TinyColor
 ###
 
-Mathmetics = require "../math/math"
+Mathematic = require "../math/math"
 
 ###
 ###
@@ -233,17 +233,22 @@ class Color
     @param {String | Color} hex color string or color name or Color instance
     @param {Object} options
     ###
-    constructor: (color="", opts={}) ->
+    constructor: (options={}) ->
+        color = if not options.color then options else options.color or 'black'
         rgb = Color.inputToRGB(color)
         
         @r = rgb.r
         @g = rgb.g
         @b = rgb.b
-        @a = rgb.a
+        @a = options.alpha or rgb.a
         
-        @roundA = Math.round(100 * @a) / 100
-        format = opts.format or rgb.format or false
+        format = options.format or rgb.format or false
         
+        Object.defineProperty @, "roundA",
+            get: ()->
+                Math.round(100 * @a) / 100
+
+
         # Don't let the range of [0,255] come back in [0,1].
         # Potentially lose a little bit of precision here, but will fix issues where
         # .5 gets interpreted as half of the total, instead of half of 1
@@ -363,7 +368,43 @@ class Color
         
         return if formatWithAlpha then @toRgbString() else formattedString or @toHexString()
 
+    ###
+    ###
+    readable: (color)->
+        Color.readable @, color
 
+    tetrad: ()->
+        Color.tetrad @
+
+    equals: (color)->
+        Color.equals @, color
+
+    desaturate: (amount=10)->
+        color = Color.desaturate @, amount
+        rgb = color.toRgb()
+        @r = rgb.r
+        @g = rgb.g
+        @b = rgb.b
+        @
+
+    clone: ()->
+        new Color @toString()
+
+    darken: (amount=10)->
+        color = Color.darken @, amount
+        rgb = color.toRgb()
+        @r = rgb.r
+        @g = rgb.g
+        @b = rgb.b
+        @
+
+    lighten: (amount=10)->
+        color = Color.lighten @, amount
+        rgb = color.toRgb()
+        @r = rgb.r
+        @g = rgb.g
+        @b = rgb.b
+        @
     ###
     If input is an object, force 1 into "1.0" to handle ratios properly
     String input requires "1.0" as input, so 1 will be treated as 1
@@ -695,10 +736,6 @@ stringInputToObject = (color) ->
         )
     false
 
-    readable: (color)->
-        Color.readable @, color
-
-    
 
 Color.fromRatio = (color, opts={}) ->
     if typeof color is "object"

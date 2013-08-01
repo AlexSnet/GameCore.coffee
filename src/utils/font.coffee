@@ -249,7 +249,7 @@ class Font extends Triggerable
                 offset: ulong(data[ptr + 8], data[ptr + 9], data[ptr + 10], data[ptr + 11])
                 length: ulong(data[ptr + 12], data[ptr + 13], data[ptr + 14], data[ptr + 15])
             ptr += 16
-        console.log tags
+        
         # first we define a quick error shortcut function:
         checkTableError = (tag) ->
             unless tags[tag]
@@ -408,7 +408,7 @@ class Font extends Triggerable
         printChar
 
     bootstrapValidation: (printChar, timeout=false) ->
-        
+
         # Create a stylesheet for using the zero-width font:
         tfName = @fontFamily + " testfont"
         zerowidth = document.createElement("style")
@@ -529,7 +529,6 @@ class Font extends Triggerable
         xhr.open "GET", font.url, true
         xhr.responseType = "arraybuffer"
         xhr.onreadystatechange = (evt) ->
-            #console.log xhr, xhr.readyState, evt
             return unless xhr.readyState is 4
             unless xhr.status is 200
                 throw new Error "Can't load from #{@url}. Please, verify source urls."
