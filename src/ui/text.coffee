@@ -91,7 +91,15 @@ class Text extends Widget
         @default "Normal 12px Verdana"
         @type {String}
         ###
-        @font = options.font or DEFAULT_FONT
+        Object.defineProperty @, 'font',
+            get: ()->
+                if not @_font
+                    @font = options.font or DEFAULT_FONT
+                @_font
+
+            set: (font)->
+                @_font = font
+                @__measure = Text.MeasureText @text, @_font
 
         ###
         Text horizontal alignment
@@ -124,6 +132,7 @@ class Text extends Widget
 
             set: (color) ->
                 @_color = if typeof color is "string" then new Color(color) else color
+                @alpha = @_color.a
 
             configurable: true
 
@@ -135,10 +144,16 @@ class Text extends Widget
 
         Object.defineProperty @, "width",
             get:->
+                if not @__measure
+                    @__measure = Text.MeasureText @text, @font
+
                 if @__measure then @__measure.width else 0
 
         Object.defineProperty @, "height",
             get:->
+                if not @__measure
+                    @__measure = Text.MeasureText @text, @font
+
                 if @__measure then @__measure.height else 0
     ###
     @method useStroke

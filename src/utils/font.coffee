@@ -249,7 +249,7 @@ class Font extends Triggerable
                 offset: ulong(data[ptr + 8], data[ptr + 9], data[ptr + 10], data[ptr + 11])
                 length: ulong(data[ptr + 12], data[ptr + 13], data[ptr + 14], data[ptr + 15])
             ptr += 16
-        console.log tags
+        
         # first we define a quick error shortcut function:
         checkTableError = (tag) ->
             unless tags[tag]

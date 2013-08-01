@@ -85,21 +85,36 @@
 gc.renderer = document.body
 gc.fullScreen = true
 
-font = new GameCore.exports.Utils.Font
+font1 = new GameCore.exports.Utils.Font
   src : "./CaesarDressing.woff"
   size: 24
 
-color = new GameCore.exports.Utils.Color('magenta')
+font2 = new GameCore.exports.Utils.Font
+  src : "./Hawaii_Killer.ttf"
+  size: 60
+
+color = new GameCore.exports.Utils.Color
+  color: 'magenta'
+  alpha: .7
   
 text1 = new GameCore.exports.UI.Text
   text:"Hello, world!"
-  font: font
+  font: font1
   color: color
   x: gc.width/2
   y: gc.height/2
   parent: gc.stage
 
-text1.rotation = 10</textarea>
+text1.rotation = 10
+
+text2 = new GameCore.exports.UI.Text
+  text:"Welcome to GameCore.coffee"
+  font: font2
+  x: 0
+  y: 20
+  parent: gc.stage
+
+</textarea>
       </div>
       <div id="result">
         <iframe id="preview" class="result_output" frameborder="0"></iframe>
