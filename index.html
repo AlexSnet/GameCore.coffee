@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GameCore.coffee :: Playground</title>
+    <script src="./libs/coffee-script.js"></script>
+    <script src="./libs/codemirror/lib/codemirror.js"></script>
+    <script src="./libs/codemirror/mode/coffeescript/coffeescript.js"></script>
+    <link rel="stylesheet" href="./libs/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="./libs/codemirror/theme/monokai.css">
+    <link rel="stylesheet" href="./libs/codemirror/theme/solarized.css">
+    <link rel="stylesheet" href="./style.css">
+    <style type="text/css">
+      html, body {
+        border:0px;
+        margin:0px;
+        padding: 0px;
+        height:100%;
+        position:relative;
+        width:100%;
+      }
+      .CodeMirror {
+        position:absolute;
+        height:100%;
+        width:100%;
+        top:0px;
+        bottom:0px;
+        border:0px; 
+        resize: none;
+      }
+      .cm-tab {
+         background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+         background-position: right;
+         background-repeat: no-repeat;
+      }
+
+      .code_input, .result_output
+      {
+        width:100%;
+      }
+
+      #content
+      {
+        position:absolute;
+        height:auto;
+        top:0px;
+        bottom:0px;
+        width:100%;
+      }
+
+      #sourcecode
+      {
+        position:absolute;
+        height:auto;
+        left:0px;
+        top:0px;
+        bottom:0px;
+        width:48%;
+      }
+
+      #result
+      {
+        position:absolute;
+        height:100%;
+        right:0px;
+        top:0px;
+        bottom:0px;
+        width:48%;
+      }
+
+      #preview
+      {
+        position:absolute;
+        height:100%;
+        top:0px;
+        bottom:0px;
+        width:100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div id="sourcecode">
+          <textarea class="code_input" id="code">###
+Setuping GameCore
+###
+gc = new GameCore()
+gc.renderer = document.body # rendering to body
+gc.fullScreen = true # make resizible to renderer's size
+
+###
+Setuping fonts
+###
+
+# Loading WOFF font
+font1 = new GameCore.exports.Utils.Font
+  src : "./CaesarDressing.woff"
+  size: 24
+
+# Loading truetype font
+font2 = new GameCore.exports.Utils.Font
+  src : "./Hawaii_Killer.ttf"
+  size: 60
+
+###
+Setiping colors
+###
+color = new GameCore.exports.Utils.Color
+  color: 'magenta'
+  alpha: .7
+  
+color2 = color.clone().darken 40
+
+###
+Creating two text UI elements
+###
+text1 = new GameCore.exports.UI.Text
+  text:"Hello, world!"
+  font: font1
+  color: color
+  x: gc.width/2
+  y: gc.height/2
+  parent: gc.stage
+
+text1.rotation = 10 # rotating by 10 degree
+
+text2 = new GameCore.exports.UI.Text
+  text:"Welcome to GameCore.coffee"
+  font: font2
+  color: color2
+  x: 0
+  y: 20
+  parent: gc.stage
+
+</textarea>
+      </div>
+      <div id="result">
+        <iframe id="preview" class="result_output" frameborder="0"></iframe>
+      </div> 
+    </div>
+
+    <script>
+      var delay, tpl;
+      var client = new XMLHttpRequest();
+      client.open('GET', './template.html');
+      client.onreadystatechange = function() {
+        tpl = client.responseText;
+      }
+      client.send();
+        
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        lineNumbers: true,
+        mode: 'text/x-coffeescript',
+        tabMode: 'indent',
+        tabSize: 2,
+        indentUnit: 2,
+        //indentWithTabs: true,
+        theme: 'solarized light'
+      });
+      editor.on("change", function() {
+        clearTimeout(delay);
+        delay = setTimeout(updatePreview, 300);
+      });
+      
+      var previewFrame = document.getElementById('preview');
+
+      function updatePreview() {
+        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+        preview.open();
+        //console.log(tpl);
+        var jsc = CoffeeScript.compile(editor.getValue());
+        //console.log(jsc);
+        preview.write(tpl.replace('{{code}}', jsc));
+        preview.close();
+      }
+      setTimeout(updatePreview, 300);
+    </script>
+  </body>
+</html>
