@@ -1,6 +1,0 @@
-[submodule "examples/libs/stats.js"]
-	path = examples/libs/stats.js
-	url = https://github.com/mrdoob/stats.js.git
-[submodule "examples/libs/codemirror"]
-	path = examples/libs/codemirror
-	url = https://github.com/marijnh/CodeMirror.git
