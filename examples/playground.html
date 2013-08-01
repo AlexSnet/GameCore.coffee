@@ -81,22 +81,39 @@
   <body>
     <div id="content">
       <div id="sourcecode">
-          <textarea class="code_input" id="code">gc = new GameCore()
-gc.renderer = document.body
-gc.fullScreen = true
+          <textarea class="code_input" id="code">###
+Setuping GameCore
+###
+gc = new GameCore()
+gc.renderer = document.body # rendering to body
+gc.fullScreen = true # make resizible to renderer's size
 
+###
+Setuping fonts
+###
+
+# Loading WOFF font
 font1 = new GameCore.exports.Utils.Font
   src : "./CaesarDressing.woff"
   size: 24
 
+# Loading truetype font
 font2 = new GameCore.exports.Utils.Font
   src : "./Hawaii_Killer.ttf"
   size: 60
 
+###
+Setiping colors
+###
 color = new GameCore.exports.Utils.Color
   color: 'magenta'
   alpha: .7
   
+color2 = color.clone().darken 40
+
+###
+Creating two text UI elements
+###
 text1 = new GameCore.exports.UI.Text
   text:"Hello, world!"
   font: font1
@@ -105,11 +122,12 @@ text1 = new GameCore.exports.UI.Text
   y: gc.height/2
   parent: gc.stage
 
-text1.rotation = 10
+text1.rotation = 10 # rotating by 10 degree
 
 text2 = new GameCore.exports.UI.Text
   text:"Welcome to GameCore.coffee"
   font: font2
+  color: color2
   x: 0
   y: 20
   parent: gc.stage

@@ -234,7 +234,7 @@ class Color
     @param {Object} options
     ###
     constructor: (options={}) ->
-        color = if typeof(options) is 'string' then options else options.color or 'black'
+        color = if not options.color then options else options.color or 'black'
         rgb = Color.inputToRGB(color)
         
         @r = rgb.r
@@ -387,6 +387,24 @@ class Color
         @b = rgb.b
         @
 
+    clone: ()->
+        new Color @toString()
+
+    darken: (amount=10)->
+        color = Color.darken @, amount
+        rgb = color.toRgb()
+        @r = rgb.r
+        @g = rgb.g
+        @b = rgb.b
+        @
+
+    lighten: (amount=10)->
+        color = Color.lighten @, amount
+        rgb = color.toRgb()
+        @r = rgb.r
+        @g = rgb.g
+        @b = rgb.b
+        @
     ###
     If input is an object, force 1 into "1.0" to handle ratios properly
     String input requires "1.0" as input, so 1 will be treated as 1

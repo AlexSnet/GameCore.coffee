@@ -408,7 +408,7 @@ class Font extends Triggerable
         printChar
 
     bootstrapValidation: (printChar, timeout=false) ->
-        
+
         # Create a stylesheet for using the zero-width font:
         tfName = @fontFamily + " testfont"
         zerowidth = document.createElement("style")
@@ -529,7 +529,6 @@ class Font extends Triggerable
         xhr.open "GET", font.url, true
         xhr.responseType = "arraybuffer"
         xhr.onreadystatechange = (evt) ->
-            #console.log xhr, xhr.readyState, evt
             return unless xhr.readyState is 4
             unless xhr.status is 200
                 throw new Error "Can't load from #{@url}. Please, verify source urls."
