@@ -7,12 +7,31 @@ Stage container
 class Stage extends container
     constructor:(options={})->
         super options
-        @x=0
-        @y=0
+        @x= options.x or 0
+        @y= options.y or 0
+
+        @shaders = []
+    
+        @canvas = document.createElement 'canvas'
+        @ctx = @canvas.getContext '2d'
+
+    addShader: (shader)->
+        @shaders.append shader
 
     render:(ctx)->
-        @width = ctx.canvas.width
-        @height= ctx.canvas.height
-        super ctx
+        @width = @width or ctx.canvas.width
+        @height= @width or ctx.canvas.height
+        
+        @canvas.width = @width
+        @canvas.height= @height
+
+        super @ctx
+        
+        for shader in @shaders
+            shader.process @ctx
+
+        data = @ctx.getImageData 0, 0, @width, @height
+        
+        ctx.putImageData data, @x, @y
 
 module.exports = Stage

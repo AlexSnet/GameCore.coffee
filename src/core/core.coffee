@@ -68,11 +68,6 @@ class GameCore extends Triggerable
         @setFramerate()
 
         ###
-        Render tick hooks
-        ###
-        @_render_tick_hooks = {}
-
-        ###
         Stages map
         ###
         @_stages = {}
@@ -89,6 +84,7 @@ class GameCore extends Triggerable
                 if not @_stages[stage.id]
                     @addStage stage
                 @_current_stage_id = stage.id
+                @trigger 'stage_changed', stage
 
 
         ###
@@ -168,14 +164,18 @@ class GameCore extends Triggerable
     ###
     ###
     addStage: (stage, setCurrent=false)->
+        stage = stage or new Stage
         @_stages[stage.id] = stage
         @stage = stage.id if setCurrent
+        @trigger 'stage_added', stage
+        stage
 
     ###
     Switch pause state
     ###
     pause: () ->
         @paused = not @paused
+        if @paused then @trigger 'paused' else @trigger 'unpaused'
     
     ###
     Set's framerate. Not usable at the moment...
@@ -194,6 +194,7 @@ class GameCore extends Triggerable
     setSize: (width=400, height=300) ->
         @width = width
         @height = height
+        @trigger 'sizeChanged', width, height
 
     _fullScreen_resizer: ()->
         gci = @
@@ -209,26 +210,6 @@ class GameCore extends Triggerable
         canvas
 
     ###
-    Add render tick hook
-
-    @method addRenderTickHook
-    @param {String} name
-    @param {Function} functor
-
-    @note Render tick hooks calls after stage was rendered
-    ###
-    addRenderTickHook: (name, functor)->
-        @_render_tick_hooks[name] = functor
-
-    ###
-    Removes render tick hook
-    @method removeRenderTickHook
-    @param {String} name
-    ###
-    removeRenderTickHook: (name)->
-        delete @_render_tick_hooks[name]
-
-    ###
     Call window's requestAnimationFrame.
     @method _onEnterFrame
     ###
@@ -241,8 +222,14 @@ class GameCore extends Triggerable
         window.onEnterFrame ()-> gci._onEnterFrame(gci)
 
     _render: ()-> 
+        @trigger 'render_start'
+        
+        @stage.width = @width
+        @stage.height = @height
+
         @context.render [@stage]
-        for name, hook of @_render_tick_hooks
-            hook.call()
+        
+        @trigger 'render_end'
+        @trigger 'render'
 
 module.exports = GameCore

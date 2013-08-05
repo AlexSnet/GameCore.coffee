@@ -24,10 +24,7 @@ clean:
 
 docs:
 	codo -o doc --name "GameCore.coffee" --title "GameCore.coffee Documentation" src
-
-serve:
-	python -m SimpleHTTPServer
-
+	
 dependens:
 	npm install -g coffee-script
 	npm install -g browserify

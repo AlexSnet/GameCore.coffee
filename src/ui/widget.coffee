@@ -114,6 +114,8 @@ class Widget extends Triggerable
         @drawBoundingBox = options.bbox if options.bbox
 
     render: (ctx)->
+        @trigger 'render_start'
+
         bit = 
             false: -1
             true: 1
@@ -130,12 +132,13 @@ class Widget extends Triggerable
             @pivot.y
             )
         # console.log @_matrix.clone().identity(), mtx
-        
+        ctx.save()
         ctx.beginPath()
         ctx.scale @scale.x, @scale.y
         ctx.translate @position.x, @position.y
 
-        ctx.transform mtx.m11, mtx.m12, mtx.m21, mtx.m22, mtx.dx, mtx.dy
+        # ctx.transform mtx.m11, mtx.m12, mtx.m21, mtx.m22, mtx.dx, mtx.dy
+        ctx.rotate 0.0174532925 * @rotation
         ctx.setAlpha @alpha
         ctx.globalCompositeOperation = @compositeOperation    if @compositeOperation
         ctx[Support.imageSmoothingEnabled] = @smooth
@@ -155,5 +158,9 @@ class Widget extends Triggerable
         ctx.scale 1/@scale.x, 1/@scale.y
         ctx.translate -@position.x, -@position.y
         ctx.closePath()
+        ctx.restore()
+        
+        @trigger 'render_end'
+        @trigger 'render'
 
 module.exports = Widget

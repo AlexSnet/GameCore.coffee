@@ -49,7 +49,7 @@ class Triggerable
         
             # Deny 'constructor' method of being overwritten
             # Define methods on this instance
-            else this[i] = behaviour[i]  if i isnt "constructor"
+            else @[i] = behaviour[i]  if i isnt "constructor"
         
         @
 
@@ -77,7 +77,7 @@ class Triggerable
         # Custom bind
         if Triggerable._custom.bind[type] isnt `undefined`
             data =
-                target: this
+                target: @
                 handler: handler
 
             Triggerable._custom.bind[type].call this, data
@@ -101,7 +101,7 @@ class Triggerable
             length = @_handlers[type].length
 
             while i < length
-                Triggerable._custom.unbind[type].call this, @_handlers[type][i]
+                Triggerable._custom.unbind[type].call @, @_handlers[type][i]
                 ++i
       
         # Unbind from this instance
@@ -113,24 +113,18 @@ class Triggerable
     Triggers event type
     @method trigger
     @param {String} type event type
-    @param {Array} arguments arguments for callback
-    @param {Number} delay
+    @param {Variable} arguments arguments for callback
     @optional
     ###
-    trigger: (type, args, delay) ->
+    trigger: (type, args...) ->
         handlers = @_handlers[type] or []
         args = args or []
-        delay = delay or 0
         i = 0
         length = handlers.length
 
         while i < length
-            handlers[i].apply this, args
+            handlers[i].apply @, args...
             ++i
-
-    broadcast: (type, args, delay) ->
-        @trigger type, args, delay
-
 
     @_custom =
         bind: {}
@@ -154,6 +148,6 @@ class Triggerable
     
     # 'init' is triggered right when it's binded.
     Triggerable.register Events.INIT, (evt) ->
-        evt.handler.call this
+        evt.handler.call @
 
 module.exports = Triggerable
