@@ -192,10 +192,11 @@ class Text extends Widget
 
     Text.BASELINE = BASELINE
     
-    @MeasureText : (text, font) ->
+    @MeasureText: (text, font) ->
         # This global variable is used to cache repeated calls with the same arguments
         str = text + ":" + font 
         return @__measuretext_cache__[str]  if typeof (@__measuretext_cache__) is "object" and @__measuretext_cache__[str]
+
         div = document.createElement("DIV")
         div.innerHTML = text
         div.style.position = "absolute"
@@ -203,10 +204,6 @@ class Text extends Widget
         div.style.left = "-100px"
         div.style.font = font.toString()
 
-        # console.log div.style.fontFamily, div.style.fontWeight, div.style.fontSize
-        # div.style.fontFamily = font
-        # div.style.fontWeight = (if bold then "bold" else "normal")
-        # div.style.fontSize = size + "pt"
         document.body.appendChild div
         size = [div.offsetWidth, div.offsetHeight]
         document.body.removeChild div

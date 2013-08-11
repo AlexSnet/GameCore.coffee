@@ -8,7 +8,7 @@ Stage = require "../ui/stage"
 Game Core base class
 
 @property {Stage} stage
-@property {Boolean} fullScreen
+@property {Boolean} fullWindowSize
 @property {Boolean} paused
 @property {Context} context
 @property {Int} width
@@ -21,7 +21,7 @@ Game Core base class
 
 @example Making canvas full-sized
     gc = new GameCore() # Creating core
-    gc.fullScreen = true
+    gc.fullWindowSize = true
 
 ###
 class GameCore extends Triggerable
@@ -89,20 +89,20 @@ class GameCore extends Triggerable
 
         ###
         ###
-        Object.defineProperty @, "fullScreen",
+        Object.defineProperty @, "fullWindowSize",
             get: ->
                 @_in_the_fullscreen_now
             set: (b)->
                 if b == true
-                    window.addEventListener "resize", @_fullScreen_resizer
+                    window.addEventListener "resize", @_fullWindowSize_resizer
                     @_in_the_fullscreen_now = true
                     @setSize document.width, document.height
                 else
-                    window.removeEventListener "resize", @_fullScreen_resizer
+                    window.removeEventListener "resize", @_fullWindowSize_resizer
                     @_in_the_fullscreen_now = false
                     @setSize @options.width, @options.height
 
-        @fullScreen = @options.fullScreen
+        @fullWindowSize = @options.fullWindowSize
 
         ###
         ###
@@ -124,7 +124,7 @@ class GameCore extends Triggerable
                 @options.canvas.height = height
                 @options.canvas.style.height = height + "px"     
 
-        if @fullScreen
+        if @fullWindowSize
             @options.width = window.width
             @options.height = window.height
         @setSize @options.width, @options.height
@@ -196,7 +196,7 @@ class GameCore extends Triggerable
         @height = height
         @trigger 'sizeChanged', width, height
 
-    _fullScreen_resizer: ()->
+    _fullWindowSize_resizer: ()->
         gci = @
         (e) -> gci.setSize window.width, window.height
     

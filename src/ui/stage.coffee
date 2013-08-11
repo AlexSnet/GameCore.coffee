@@ -11,7 +11,7 @@ class Stage extends container
         @y= options.y or 0
 
         @shaders = []
-    
+
         @canvas = document.createElement 'canvas'
         @ctx = @canvas.getContext '2d'
 
@@ -21,17 +21,20 @@ class Stage extends container
     render:(ctx)->
         @width = @width or ctx.canvas.width
         @height= @width or ctx.canvas.height
-        
-        @canvas.width = @width
-        @canvas.height= @height
 
-        super @ctx
-        
-        for shader in @shaders
-            shader.process @ctx
+        if @shaders
+            @canvas.width = @width
+            @canvas.height= @height
 
-        data = @ctx.getImageData 0, 0, @width, @height
-        
-        ctx.putImageData data, @x, @y
+            super @ctx
+
+            for shader in @shaders
+                shader.process @ctx
+
+            data = @ctx.getImageData 0, 0, @width, @height
+
+            ctx.putImageData data, @x, @y
+        else
+            super ctx
 
 module.exports = Stage

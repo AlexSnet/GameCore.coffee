@@ -5,5 +5,6 @@ module.exports =
     Container: require "./container"
 
     Text: require "./text"
+    Sprite: require "./sprite"
 
     geometry: require "./geometry/exports"
