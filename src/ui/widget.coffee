@@ -83,7 +83,7 @@ class Widget extends Triggerable
 
         Object.defineProperty @, "width",
             get:->
-                @_width or 10
+                @_width or 0
             set: (w)->
                 @_width = w
             configurable: true
@@ -91,7 +91,7 @@ class Widget extends Triggerable
 
         Object.defineProperty @, "height",
             get:->
-                @_height or 10
+                @_height or 0
             set: (h)->
                 @_height = h
             configurable: true
@@ -106,19 +106,21 @@ class Widget extends Triggerable
                 @_parent.addChild @
         @parent = options.parent if options.parent
 
-        Object.defineProperty @, "drawBoundingBox",
+        Object.defineProperty @, "visible",
             get:->
-                @_bounding_box or false
-            set:(boool)->
-                @_bounding_box = boool or false
-        @drawBoundingBox = options.bbox if options.bbox
+                if @alpha <= 0 or not @_visible
+                    return false
+                return true
+            set: (visibility)->
+                @_visible = Boolean visibility
+        @visible = (options.visible if options.visible) or true
+
 
     render: (ctx)->
-        @trigger 'render_start'
+        if not @visible
+            return
 
-        bit = 
-            false: -1
-            true: 1
+        bit = false: -1, true: 1
 
         mtx = Matrix2d.identity.appendTransform(
             @position.x + @width * (@flipX + 0),
@@ -137,30 +139,18 @@ class Widget extends Triggerable
         ctx.scale @scale.x, @scale.y
         ctx.translate @position.x, @position.y
 
-        # ctx.transform mtx.m11, mtx.m12, mtx.m21, mtx.m22, mtx.dx, mtx.dy
+        ctx.transform mtx.m11, mtx.m12, mtx.m21, mtx.m22, mtx.dx, mtx.dy
         ctx.rotate 0.0174532925 * @rotation
         ctx.setAlpha @alpha
         ctx.globalCompositeOperation = @compositeOperation    if @compositeOperation
-        ctx[Support.imageSmoothingEnabled] = @smooth
-
-        if @drawBoundingBox is true
-            ctx.setAlpha 1
-            # ctx.rect @x,@y,@width,@height
-            # color = Color.random()
-            # console.log color.toString()
-            # ctx.fillStyle = color
-            # ctx.fillRect 0,0,@width,@height
-            ctx.rect 0,0,@width,@height
+        # ctx[Support.imageSmoothingEnabled] = @smooth
 
         ctx.setAlpha @alpha
-        @_render ctx if @_render
+        @_render(ctx) if @_render
 
         ctx.scale 1/@scale.x, 1/@scale.y
         ctx.translate -@position.x, -@position.y
         ctx.closePath()
         ctx.restore()
-        
-        @trigger 'render_end'
-        @trigger 'render'
 
 module.exports = Widget

@@ -1,4 +1,4 @@
-all: clean build.maketemp build.coffee build.browserify build.uglify
+all: clean build.maketemp build.coffee build.browserify build.uglify build.fixsourcemaps
 
 build.maketemp:
 	mkdir .tmp
@@ -17,6 +17,9 @@ build.uglify:
 
 build.compress:
 	gzip -n -9 -c  dist/gamecore.min.js > dist/gamecore.min.js.gz
+
+build.fixsourcemaps:
+	python tools/fixSourcemaps.py
 
 clean:
 	rm -rf .tmp
