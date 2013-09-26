@@ -86,7 +86,7 @@ Setuping GameCore
 ###
 gc = new GameCore()
 gc.renderer = document.body # rendering to body
-gc.fullScreen = true # make resizible to renderer's size
+gc.fullWindowSize = true # make resizible to renderer's size
 
 ###
 Setuping fonts
@@ -132,11 +132,29 @@ text2 = new GameCore.exports.UI.Text
   y: 20
   parent: gc.stage
 
+text1.bind 'render', ->
+  @rotation += .3
+
+img1 = new GameCore.exports.UI.Sprite
+  src: './cogs.png'
+  parent: gc.stage
+  width: 128
+  height: 128
+  x: 250
+  y: 300
+
+speed = 2
+img1.bind 'render', ->
+  if @x > @parent.width-@width or @x <= 0
+    speed = -speed
+  @x += speed
+
+
 </textarea>
       </div>
       <div id="result">
         <iframe id="preview" class="result_output" frameborder="0"></iframe>
-        <a href="https://github.com/AlexSnet/GameCore.coffee"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        <!-- <a href="https://github.com/AlexSnet/GameCore.coffee"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
       </div> 
     </div>
 
@@ -169,9 +187,10 @@ text2 = new GameCore.exports.UI.Text
       function updatePreview() {
         var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
         preview.open();
-        //console.log(tpl);
+        preview.clear();
         var jsc = CoffeeScript.compile(editor.getValue());
-        //console.log(jsc);
+        // var data = "data:text/html;base64," + btoa(tpl.replace('{{code}}', jsc));
+        // previewFrame.src = data;
         preview.write(tpl.replace('{{code}}', jsc));
         preview.close();
       }

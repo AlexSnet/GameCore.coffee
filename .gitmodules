@@ -1,9 +1,6 @@
 [submodule "libs/codemirror"]
 	path = libs/codemirror
 	url = https://github.com/marijnh/CodeMirror.git
-[submodule "libs/gamecore"]
-	path = libs/gamecore
-	url = https://github.com/AlexSnet/GameCore.coffee.git
 [submodule "libs/stats.js"]
 	path = libs/stats.js
 	url = https://github.com/mrdoob/stats.js.git
