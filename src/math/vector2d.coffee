@@ -37,6 +37,7 @@ class Vector2d
     @return {Vector2d}
     ###
     set: (@x, @y) ->
+        @
         
     ###
     @method sum
@@ -46,6 +47,7 @@ class Vector2d
     subtract: (vector2d) ->
         @x -= vector2d.x
         @y -= vector2d.y
+        @
 
     ###
     @method sum
@@ -55,6 +57,7 @@ class Vector2d
     sum: (vector2d) ->
         @x += vector2d.x
         @y += vector2d.y
+        @
 
     ###
     @method scale
@@ -65,7 +68,7 @@ class Vector2d
     scale: (x, y) ->
         @x *= x
         @y *= y or x
-    
+        @
 
 
     ###
@@ -92,6 +95,7 @@ class Vector2d
         normal = @normalized
         @x = normal.x
         @y = normal.y
+        @
 
 
     ###

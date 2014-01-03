@@ -15,9 +15,12 @@ class Container extends Widget
         else
             @children[child.id] = child
 
-    render:(ctx)->
-        super ctx
+    _render:(ctx)->
         for cid, child of @children
             child.render ctx
+
+    render:(ctx)->
+        super ctx
+
 
 module.exports = Container

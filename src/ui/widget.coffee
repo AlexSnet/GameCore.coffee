@@ -1,5 +1,5 @@
 UUID = require "../math/uuid"
-Triggerable = require "../core/triggerable"
+Events = require "../core/events"
 Vector2d = require "../math/vector2d"
 Matrix2d = require "../math/matrix2d"
 Support = require "../core/support"
@@ -10,7 +10,7 @@ Base renderable element
 
 @note GameCore.exports.ui.Widget
 ###
-class Widget extends Triggerable
+class Widget extends Events
     constructor: (options={})->
         @id = UUID.generateUniqueId()
         super options

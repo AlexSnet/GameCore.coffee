@@ -25,8 +25,7 @@ window.onEnterFrame = (() ->
     window.oRequestAnimationFrame or 
     window.msRequestAnimationFrame or 
     (callback) -> 
-        # TODO: use FPS rate from render module
-        window.setTimeout callback, 1000 / window._FPS
+        window.setTimeout callback, 1000 / (window._FPS or 60)
 )()
 
 

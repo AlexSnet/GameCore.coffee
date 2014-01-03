@@ -4,7 +4,7 @@ Inspired by Font.js by  Mike "Pomax" Kamermans
 ###
 
 Mathmetics = require "../math/math"
-Triggerable = require "../core/triggerable"
+Events = require "../core/events"
 
 FONT_CACHE = {}
 FONT_DEFAULTS =
@@ -60,7 +60,7 @@ Font manipulations and measurement
 
 @note GameCore.exports.Utils.Font
 ###
-class Font extends Triggerable
+class Font extends Events
     constructor: (options={})->
         # the font resource URL
         @url = options.url or options.src or ""

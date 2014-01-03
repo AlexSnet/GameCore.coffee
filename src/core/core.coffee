@@ -1,6 +1,6 @@
 context2d = require "./context/2d"
 support = require "./support"
-Triggerable = require "./triggerable"
+Events = require "./events"
 UUID = require "../math/uuid"
 Stage = require "../ui/stage"
 
@@ -24,7 +24,7 @@ Game Core base class
     gc.fullWindowSize = true
 
 ###
-class GameCore extends Triggerable
+class GameCore extends Events
     ###
     GameCore instancec archive
     ###
