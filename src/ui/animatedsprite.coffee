@@ -1,6 +1,6 @@
 Sprite = require "./sprite"
 
-class AnimatedSprite extends Sprite
+module.exports = class AnimatedSprite extends Sprite
     constructor: (options={})->
         super options
 

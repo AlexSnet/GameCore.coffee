@@ -228,7 +228,7 @@ Color operations
 
 @note GameCore.exports.utils.Color
 ###
-class Color
+module.exports = class Color
     ###
     @param {String | Color} hex color string or color name or Color instance
     @param {Object} options
@@ -904,5 +904,3 @@ Color.mostReadable = (baseColor, colorList) ->
             bestColor = new Color colorList[i]
         i++
     bestColor
-
-module.exports = Color

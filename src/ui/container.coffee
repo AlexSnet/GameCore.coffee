@@ -4,7 +4,7 @@ Widget = require "./widget"
 Base widgets container
 @note GameCore.exports.ui.Container
 ###
-class Container extends Widget
+module.exports = class Container extends Widget
     constructor: (options={})->
         super options
         @children = {}
@@ -23,4 +23,3 @@ class Container extends Widget
         super ctx
 
 
-module.exports = Container

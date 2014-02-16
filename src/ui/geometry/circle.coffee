@@ -1,6 +1,6 @@
 Widget = require "../widget"
 
-class Circle extends Widget
+module.exports = class Circle extends Widget
     constructor: (options={})->
         super options
 

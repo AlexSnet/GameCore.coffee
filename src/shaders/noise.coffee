@@ -1,5 +1,4 @@
-class Noise extends Shader
+module.exports = class Noise extends Shader
     constructor: (options={})->
         super options
 
-module.exports = Noise

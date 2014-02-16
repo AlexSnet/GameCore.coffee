@@ -5,8 +5,8 @@ GameCore =
     UI: require "./ui/exports"
     Math: require "./math/exports"
     Utils: require "./utils/exports"
-    #Input: require "./input/exports"
-    #Shaders: require "./shaders/exports"
+    Input: require "./input/exports"
+    # Shaders: require "./shaders/exports"
 
 
 if window

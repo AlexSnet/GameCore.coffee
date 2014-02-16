@@ -16,7 +16,7 @@ class Stage extends container
         @ctx = @canvas.getContext '2d'
 
     addShader: (shader)->
-        @shaders.append shader
+        @shaders.push shader
 
     render:(ctx)->
         @width = @width or ctx.canvas.width

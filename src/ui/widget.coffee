@@ -1,5 +1,6 @@
 UUID = require "../math/uuid"
-Events = require "../core/events"
+#Events = require "../core/events"
+Events = require "../core/events/dispatcher"
 Vector2d = require "../math/vector2d"
 Matrix2d = require "../math/matrix2d"
 Support = require "../core/support"
@@ -10,7 +11,7 @@ Base renderable element
 
 @note GameCore.exports.ui.Widget
 ###
-class Widget extends Events
+module.exports = class Widget extends Events
     constructor: (options={})->
         @id = UUID.generateUniqueId()
         super options
@@ -41,6 +42,17 @@ class Widget extends Events
         @type {Number}
         @default 1
         ###
+        Object.defineProperty this, "alpha",
+            get: ->
+                if not @_alpha
+                    @_alpha = options.alpha or 1
+
+                @_alpha
+
+            set: (alpha) ->
+                @_alpha = alpha
+
+            configurable: true
         @alpha = (if (typeof (options.alpha) is "undefined") then 1 else options.alpha)
         
         ###
@@ -143,7 +155,7 @@ class Widget extends Events
         ctx.rotate 0.0174532925 * @rotation
         ctx.setAlpha @alpha
         ctx.globalCompositeOperation = @compositeOperation    if @compositeOperation
-        # ctx[Support.imageSmoothingEnabled] = @smooth
+        ctx[Support.imageSmoothingEnabled] = @smooth
 
         ctx.setAlpha @alpha
         @_render(ctx) if @_render
@@ -153,4 +165,11 @@ class Widget extends Events
         ctx.closePath()
         ctx.restore()
 
-module.exports = Widget
+        @dispatchEvent 'render'
+
+    ###
+    @method toString
+    @return {String} String representation of object
+    ###
+    toString: ()->
+        "<Widget (#{@id})>"

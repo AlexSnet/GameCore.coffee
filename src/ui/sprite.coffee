@@ -1,7 +1,7 @@
 Widget = require "./widget"
 Color = require "../utils/color"
 
-class Sprite extends Widget
+module.exports = class Sprite extends Widget
     constructor: (options={})->
         super options
         self = @
@@ -39,4 +39,10 @@ class Sprite extends Widget
             visible: @visible
             alpha: @alpha
 
-module.exports = Sprite
+    ###
+    @method toString
+    @return {String} String representation of object
+    ###
+    toString: ()->
+        "<Sprite (#{@id})>"
+

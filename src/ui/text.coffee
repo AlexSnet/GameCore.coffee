@@ -190,6 +190,13 @@ class Text extends Widget
         @__measure.height = m[1]
 
 
+    ###
+    @method toString
+    @return {String} String representation of object
+    ###
+    toString: ()->
+        "<Text (#{@id}): #{@text}>"
+
     Text.BASELINE = BASELINE
     
     @MeasureText: (text, font) ->

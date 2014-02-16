@@ -1,5 +1,4 @@
-class Blur extends Shader
+module.exports = class Blur extends Shader
     constructor: (options={})->
         super options
 
-module.exports = Blur

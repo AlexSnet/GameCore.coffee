@@ -3,3 +3,4 @@ doc
 !doc/README.md
 *.gz
 example
+node_modules

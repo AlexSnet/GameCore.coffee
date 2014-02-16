@@ -1,5 +1,3 @@
-class Shader
+module.exports = class Shader
     constructor: (options={})->
         
-
-module.exports = Shader

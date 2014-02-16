@@ -1,8 +1,10 @@
 context2d = require "./context/2d"
 support = require "./support"
-Events = require "./events"
+Events = require "./events/dispatcher"
 UUID = require "../math/uuid"
 Stage = require "../ui/stage"
+
+Stats = require "./debug/stats"
 
 ###
 Game Core base class
@@ -14,6 +16,7 @@ Game Core base class
 @property {Int} width
 @property {Int} heigth
 @property {DOMElement} renderer
+@property {Boolean} debug
 
 @example How to create an game core 
     gc = new GameCore() # Creating core
@@ -24,7 +27,7 @@ Game Core base class
     gc.fullWindowSize = true
 
 ###
-class GameCore extends Events
+module.exports = class GameCore extends Events
     ###
     GameCore instancec archive
     ###
@@ -84,7 +87,7 @@ class GameCore extends Events
                 if not @_stages[stage.id]
                     @addStage stage
                 @_current_stage_id = stage.id
-                @trigger 'stage_changed', stage
+                @dispatchEvent 'stage_changed', stage
 
 
         ###
@@ -124,6 +127,8 @@ class GameCore extends Events
                 @options.canvas.height = height
                 @options.canvas.style.height = height + "px"     
 
+        ###
+        ###
         if @fullWindowSize
             @options.width = window.width
             @options.height = window.height
@@ -131,7 +136,8 @@ class GameCore extends Events
 
         ###
         Context element.
-        Currently support only Context2d
+        @note Currently support only Context2d
+        @property context
         ###
         Object.defineProperty @, "context",
             get: ->
@@ -140,6 +146,7 @@ class GameCore extends Events
                 @_context
 
         ###
+        @property paused
         ###
         Object.defineProperty @, "paused",
             get: ->
@@ -148,7 +155,16 @@ class GameCore extends Events
                 @_paused = if paused then true else false
 
         ###
+        ###
+        Object.defineProperty @, "debug",
+            get: ->
+                @_debug or false
+            set: (debug) ->
+                @_debug = !!debug   
+
+        ###
         Renderer element.
+        @property renderer
         ###
         Object.defineProperty @, "renderer",
             get: ->
@@ -159,6 +175,7 @@ class GameCore extends Events
                 node.appendChild @options.canvas
                 @_parent_node = node
 
+        @_stats = new Stats @
         @_onEnterFrame()
 
     ###
@@ -167,7 +184,8 @@ class GameCore extends Events
         stage = stage or new Stage
         @_stages[stage.id] = stage
         @stage = stage.id if setCurrent
-        @trigger 'stage_added', stage
+        @dispatchEvent 'stage_added'
+        @dispatchEvent 'stage', stage
         stage
 
     ###
@@ -175,7 +193,7 @@ class GameCore extends Events
     ###
     pause: () ->
         @paused = not @paused
-        if @paused then @trigger 'paused' else @trigger 'unpaused'
+        if @paused then @dispatchEvent 'paused' else @dispatchEvent 'unpaused'
     
     ###
     Set's framerate. Not usable at the moment...
@@ -183,7 +201,7 @@ class GameCore extends Events
     @method setFramerate
     ###
     setFramerate: (framerate=60) ->
-        window._FPS = framerate
+        @_FPS = framerate
 
     ###
     Set size of an canvas element.
@@ -194,7 +212,7 @@ class GameCore extends Events
     setSize: (width=400, height=300) ->
         @width = width
         @height = height
-        @trigger 'sizeChanged', width, height
+        @dispatchEvent 'sizeChanged'
 
     _fullWindowSize_resizer: ()->
         gci = @
@@ -222,14 +240,22 @@ class GameCore extends Events
         window.onEnterFrame ()-> gci._onEnterFrame(gci)
 
     _render: ()-> 
-        @trigger 'render_start'
+        @dispatchEvent 'render_start'
         
         @stage.width = @width
         @stage.height = @height
 
         @context.render [@stage]
         
-        @trigger 'render_end'
-        @trigger 'render'
+        @dispatchEvent 'render_end'
+        @dispatchEvent 'render'
 
-module.exports = GameCore
+    ###
+    @method addInput
+    ###
+    addInput: (hid)->
+        unless @_installedInputs
+            @_installedInputs = {}
+        unless input in @_installedInputs
+            input = new hid @
+            @_installedInputs[hid] = input
