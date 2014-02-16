@@ -4,3 +4,7 @@
 [submodule "libs/stats.js"]
 	path = libs/stats.js
 	url = https://github.com/mrdoob/stats.js.git
+[submodule "libs/GameCore"]
+	path = libs/GameCore
+	url = https://AlexSnet@github.com/AlexSnet/GameCore.coffee.git
+	branch = master
