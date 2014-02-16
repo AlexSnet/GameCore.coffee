@@ -84,37 +84,56 @@
           <textarea class="code_input" id="code">###
 Setuping GameCore
 ###
-gc = new GameCore()
+gc = new GameCore.Core()
 gc.renderer = document.body # rendering to body
-gc.fullWindowSize = true # make resizible to renderer's size
+gc.setSize 400, 600
+gc.addInput GameCore.Input.Mouse
 
 ###
 Setuping fonts
 ###
 
 # Loading WOFF font
-font1 = new GameCore.exports.Utils.Font
+font1 = new GameCore.Utils.Font
   src : "./CaesarDressing.woff"
   size: 24
 
 # Loading truetype font
-font2 = new GameCore.exports.Utils.Font
+font2 = new GameCore.Utils.Font
   src : "./Hawaii_Killer.ttf"
   size: 60
 
 ###
-Setiping colors
+Make some colours
 ###
-color = new GameCore.exports.Utils.Color
+color = new GameCore.Utils.Color
   color: 'magenta'
   alpha: .7
   
-color2 = color.clone().darken 40
+color2 = color.clone().darken 25
 
 ###
-Creating two text UI elements
+Creating image UI element
 ###
-text1 = new GameCore.exports.UI.Text
+img1 = new GameCore.UI.Sprite
+  src: './cogs.png'
+  parent: gc.stage
+  width: 128
+  height: 128
+  x: 250
+  y: 130
+
+# Add some dynamics
+speed = 2
+img1.on 'render', ->
+  if @x > @parent.width-@width or @x <= 0
+    speed = -speed
+  @x += speed
+
+###
+And two text UI elements
+###
+text1 = new GameCore.UI.Text
   text:"Hello, world!"
   font: font1
   color: color
@@ -124,32 +143,32 @@ text1 = new GameCore.exports.UI.Text
 
 text1.rotation = 10 # rotating by 10 degree
 
-text2 = new GameCore.exports.UI.Text
-  text:"Welcome to GameCore.coffee"
+# more dynamics!
+text1.on 'render', ->
+  @rotation += .3
+
+
+text2 = new GameCore.UI.Text
+  text:"GameCore.coffee"
   font: font2
   color: color2
   x: 0
   y: 20
   parent: gc.stage
 
-text1.bind 'render', ->
-  @rotation += .3
 
-img1 = new GameCore.exports.UI.Sprite
-  src: './cogs.png'
+###
+Add some primitives
+###
+rect1 = new GameCore.UI.geometry.Rect
   parent: gc.stage
-  width: 128
-  height: 128
-  x: 250
-  y: 300
-
-speed = 2
-img1.bind 'render', ->
-  if @x > @parent.width-@width or @x <= 0
-    speed = -speed
-  @x += speed
-
-
+  x: 200
+  y: 150
+  width: 64
+  height: 64
+  alpha: .4
+  color: GameCore.Utils.Color.random()
+rect1.rotation = 45
 </textarea>
       </div>
       <div id="result">

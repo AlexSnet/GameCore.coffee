@@ -2,30 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript" src="./gamecore.min.js"></script>
-  <script type="text/javascript" src="./libs/stats.js/build/stats.min.js"></script>
+  <script type="text/javascript" src="./libs/GameCore/dist/gamecore.js"></script>
   <style type="text/css">* {padding: 0;margin: 0;}</style>
 </head>
 <body></body>
 <script type="text/javascript">{{code}}</script>
-<script type="text/javascript">
-/*
-    for(var k in GameCore.cores){
-        var gc = GameCore.cores[k];
-    
-        var stats = new Stats();
-        stats.setMode(0);
-        
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = 0;
-        stats.domElement.style.bottom = 0;
-
-        document.body.appendChild( stats.domElement );
-
-        gc.bind('render', function(){
-            stats.update();
-        });
-    }
-*/
-</script>
 </html>
