@@ -18,5 +18,5 @@ module.exports = class Rect extends Widget
             configurable: true
 
     _render: (ctx)->
-        ctx.fillStyle = @color if @color
+        ctx.fillStyle = @color.toString() if @color
         ctx.fillRect 0, 0, @width, @height

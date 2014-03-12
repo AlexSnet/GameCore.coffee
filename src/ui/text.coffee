@@ -195,7 +195,7 @@ class Text extends Widget
     @return {String} String representation of object
     ###
     toString: ()->
-        "<Text (#{@id}): #{@text}>"
+        "#{@text}"
 
     Text.BASELINE = BASELINE
     

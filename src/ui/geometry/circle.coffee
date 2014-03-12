@@ -7,7 +7,7 @@ module.exports = class Circle extends Widget
     _render: (ctx)->
         ctx.beginPath()
         ctx.arc @radius, @radius, @radius, 0, 2 * Math.PI
-        ctx.fillStyle = @color
+        ctx.fillStyle = @color.toString()
         ctx.fill()
 
 

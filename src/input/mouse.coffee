@@ -3,6 +3,7 @@ Vector2d = require "../math/vector2d"
 class MouseCursor
     constructor: (@mouse, @x=-1,@y=-1)->
     handleEvent: (e)->
+        console.log e
         @x = e.offsetX * @mouse.core.stage.viewport.scale.x;
         @y = e.offsetY * @mouse.core.stage.viewport.scale.y;
         # Mouse.collider.updateColliderPosition(J.currentEngine.currentScene.viewport.position);
@@ -74,7 +75,7 @@ module.exports = class Mouse
 
         @handlers = {}
 
-        @cursor = new MouseCursor()
+        @cursor = new MouseCursor @, -1, -1
         @lastEvent = null
         
         a = @
@@ -98,10 +99,13 @@ module.exports = class Mouse
             # console.log @, mi, e, Mouse.handlers
             handlers = mi.handlers[e.type]
             mi.lastEvent = e
-            mi. e
+            mi.cursor.handleEvent e
+            # mi. e
             i = 0
             length = handlers.length
-
             while i < length
-                handlers[i].handler.apply handlers[i].target, [e]  if handlers[i].target.visible and Mouse.isOver(handlers[i].target)
+                handlers[i].handler.apply handlers[i].target, [e] if handlers[i].target.visible and mi.isOver(handlers[i].target)
                 ++i
+
+    isOver: (target)->
+        console.log target, @cursor

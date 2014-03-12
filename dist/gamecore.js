@@ -57,8 +57,8 @@
 	GameCore = {
 	  Core: require(/*! ./core/core */ 2),
 	  UI: require(/*! ./ui/exports */ 3),
-	  Math: require(/*! ./math/exports */ 4),
-	  Utils: require(/*! ./utils/exports */ 5),
+	  Math: require(/*! ./math/exports */ 5),
+	  Utils: require(/*! ./utils/exports */ 4),
 	  Input: require(/*! ./input/exports */ 6)
 	};
 	
@@ -302,15 +302,15 @@
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 	
-	context2d = require(/*! ./context/2d */ 7);
+	context2d = require(/*! ./context/2d */ 8);
 	
 	support = require(/*! ./support */ 1);
 	
-	Events = require(/*! ./events/dispatcher */ 8);
+	Events = require(/*! ./events/dispatcher */ 9);
 	
-	UUID = require(/*! ../math/uuid */ 9);
+	UUID = require(/*! ../math/uuid */ 10);
 	
-	Stage = require(/*! ../ui/stage */ 10);
+	Stage = require(/*! ../ui/stage */ 7);
 	
 	Stats = require(/*! ./debug/stats */ 11);
 	
@@ -670,32 +670,17 @@
 /***/ function(module, exports, require) {
 
 	module.exports = {
-	  Widget: require(/*! ./widget */ 15),
-	  Stage: require(/*! ./stage */ 10),
-	  Container: require(/*! ./container */ 16),
-	  Text: require(/*! ./text */ 17),
-	  Sprite: require(/*! ./sprite */ 18),
-	  geometry: require(/*! ./geometry/exports */ 19)
+	  Widget: require(/*! ./widget */ 12),
+	  Stage: require(/*! ./stage */ 7),
+	  Container: require(/*! ./container */ 13),
+	  Text: require(/*! ./text */ 14),
+	  Sprite: require(/*! ./sprite */ 15),
+	  geometry: require(/*! ./geometry/exports */ 16)
 	};
 
 
 /***/ },
 /* 4 */
-/*!*********************************!*\
-  !*** ./src/math/exports.coffee ***!
-  \*********************************/
-/***/ function(module, exports, require) {
-
-	module.exports = {
-	  Matrix2D: require(/*! ./matrix2d */ 12),
-	  Vector2D: require(/*! ./vector2d */ 13),
-	  UUID: require(/*! ./uuid */ 9),
-	  Math: require(/*! ./math */ 14)
-	};
-
-
-/***/ },
-/* 5 */
 /*!**********************************!*\
   !*** ./src/utils/exports.coffee ***!
   \**********************************/
@@ -705,6 +690,21 @@
 	  Color: require(/*! ./color */ 20),
 	  Font: require(/*! ./font */ 21),
 	  Loader: require(/*! ./loader */ 22)
+	};
+
+
+/***/ },
+/* 5 */
+/*!*********************************!*\
+  !*** ./src/math/exports.coffee ***!
+  \*********************************/
+/***/ function(module, exports, require) {
+
+	module.exports = {
+	  Matrix2D: require(/*! ./matrix2d */ 17),
+	  Vector2D: require(/*! ./vector2d */ 18),
+	  UUID: require(/*! ./uuid */ 10),
+	  Math: require(/*! ./math */ 19)
 	};
 
 
@@ -722,6 +722,71 @@
 
 /***/ },
 /* 7 */
+/*!*****************************!*\
+  !*** ./src/ui/stage.coffee ***!
+  \*****************************/
+/***/ function(module, exports, require) {
+
+	var Stage, container,
+	  __hasProp = {}.hasOwnProperty,
+	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+	
+	container = require(/*! ../ui/container */ 13);
+	
+	/*
+	Stage container
+	@note GameCore.exports.ui.Stage
+	*/
+	
+	
+	Stage = (function(_super) {
+	  __extends(Stage, _super);
+	
+	  function Stage(options) {
+	    if (options == null) {
+	      options = {};
+	    }
+	    Stage.__super__.constructor.call(this, options);
+	    this.x = options.x || 0;
+	    this.y = options.y || 0;
+	    this.shaders = [];
+	    this.canvas = document.createElement('canvas');
+	    this.ctx = this.canvas.getContext('2d');
+	  }
+	
+	  Stage.prototype.addShader = function(shader) {
+	    return this.shaders.push(shader);
+	  };
+	
+	  Stage.prototype.render = function(ctx) {
+	    var data, shader, _i, _len, _ref;
+	    this.width = this.width || ctx.canvas.width;
+	    this.height = this.width || ctx.canvas.height;
+	    if (this.shaders) {
+	      this.canvas.width = this.width;
+	      this.canvas.height = this.height;
+	      Stage.__super__.render.call(this, this.ctx);
+	      _ref = this.shaders;
+	      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+	        shader = _ref[_i];
+	        shader.process(this.ctx);
+	      }
+	      data = this.ctx.getImageData(0, 0, this.width, this.height);
+	      return ctx.putImageData(data, this.x, this.y);
+	    } else {
+	      return Stage.__super__.render.call(this, ctx);
+	    }
+	  };
+	
+	  return Stage;
+	
+	})(container);
+	
+	module.exports = Stage;
+
+
+/***/ },
+/* 8 */
 /*!************************************!*\
   !*** ./src/core/context/2d.coffee ***!
   \************************************/
@@ -767,7 +832,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /*!*******************************************!*\
   !*** ./src/core/events/dispatcher.coffee ***!
   \*******************************************/
@@ -1108,7 +1173,7 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /*!******************************!*\
   !*** ./src/math/uuid.coffee ***!
   \******************************/
@@ -1158,71 +1223,6 @@
 
 
 /***/ },
-/* 10 */
-/*!*****************************!*\
-  !*** ./src/ui/stage.coffee ***!
-  \*****************************/
-/***/ function(module, exports, require) {
-
-	var Stage, container,
-	  __hasProp = {}.hasOwnProperty,
-	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-	
-	container = require(/*! ../ui/container */ 16);
-	
-	/*
-	Stage container
-	@note GameCore.exports.ui.Stage
-	*/
-	
-	
-	Stage = (function(_super) {
-	  __extends(Stage, _super);
-	
-	  function Stage(options) {
-	    if (options == null) {
-	      options = {};
-	    }
-	    Stage.__super__.constructor.call(this, options);
-	    this.x = options.x || 0;
-	    this.y = options.y || 0;
-	    this.shaders = [];
-	    this.canvas = document.createElement('canvas');
-	    this.ctx = this.canvas.getContext('2d');
-	  }
-	
-	  Stage.prototype.addShader = function(shader) {
-	    return this.shaders.push(shader);
-	  };
-	
-	  Stage.prototype.render = function(ctx) {
-	    var data, shader, _i, _len, _ref;
-	    this.width = this.width || ctx.canvas.width;
-	    this.height = this.width || ctx.canvas.height;
-	    if (this.shaders) {
-	      this.canvas.width = this.width;
-	      this.canvas.height = this.height;
-	      Stage.__super__.render.call(this, this.ctx);
-	      _ref = this.shaders;
-	      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-	        shader = _ref[_i];
-	        shader.process(this.ctx);
-	      }
-	      data = this.ctx.getImageData(0, 0, this.width, this.height);
-	      return ctx.putImageData(data, this.x, this.y);
-	    } else {
-	      return Stage.__super__.render.call(this, ctx);
-	    }
-	  };
-	
-	  return Stage;
-	
-	})(container);
-	
-	module.exports = Stage;
-
-
-/***/ },
 /* 11 */
 /*!*************************************!*\
   !*** ./src/core/debug/stats.coffee ***!
@@ -1233,9 +1233,9 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Text = require(/*! ../../ui/text */ 17);
+	Text = require(/*! ../../ui/text */ 14);
 	
-	Widget = require(/*! ../../ui/widget */ 15);
+	Widget = require(/*! ../../ui/widget */ 12);
 	
 	module.exports = Stats = (function(_super) {
 	  __extends(Stats, _super);
@@ -1293,498 +1293,6 @@
 
 /***/ },
 /* 12 */
-/*!**********************************!*\
-  !*** ./src/math/matrix2d.coffee ***!
-  \**********************************/
-/***/ function(module, exports, require) {
-
-	/*
-	2D Matrix manipulations
-	
-	@note GameCore.exports.Math.Matrix2D
-	*/
-	
-	var Matrix2D;
-	
-	Matrix2D = (function() {
-	  /*           
-	  Multiplier for converting degrees to radians. Used internally by Matrix2D.
-	  
-	  @attribute DEG_TO_RAD
-	  @static
-	  @readonly
-	  @return {Number}
-	  */
-	
-	  Matrix2D.DEG_TO_RAD = Math.PI / 180;
-	
-	  /*
-	  Based on [EaselJS](https://github.com/CreateJS/EaselJS/) Matrix2D implementation.
-	  
-	  @class Matrix2D
-	  @constructor
-	  
-	  @param {Number} m11
-	  @param {Number} m12
-	  @param {Number} m21
-	  @param {Number} m22
-	  @param {Number} dx
-	  @param {Number} dy
-	  */
-	
-	
-	  function Matrix2D(m11, m12, m21, m22, dx, dy) {
-	    if (m11 !== null) {
-	      this.m11 = m11;
-	    }
-	    this.m12 = m12 || 0;
-	    this.m21 = m21 || 0;
-	    if (m22 !== null) {
-	      this.m22 = m22;
-	    }
-	    this.dx = dx || 0;
-	    this.dy = dy || 0;
-	  }
-	
-	  /*
-	  Generates matrix properties from the specified display object transform properties, and appends them with this matrix.
-	  For example, you can use this to generate m11 matrix from m11 display object: var mtx = new Matrix2D();
-	  mtx.appendTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation);
-	  @method appendTransform
-	  @param {Number} x
-	  @param {Number} y
-	  @param {Number} scaleX
-	  @param {Number} scaleY
-	  @param {Number} rotation
-	  @param {Number} skewX
-	  @param {Number} skewY
-	  @param {Number} pivotX Optional.
-	  @param {Number} pivotY Optional.
-	  @return {Matrix2D} This matrix. Useful for chaining method calls.
-	  */
-	
-	
-	  Matrix2D.prototype.appendTransform = function(x, y, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) {
-	    var cos, r, sin;
-	    cos = void 0;
-	    sin = void 0;
-	    r = void 0;
-	    if (rotation % 360) {
-	      r = rotation * Matrix2D.DEG_TO_RAD;
-	      cos = Math.cos(r);
-	      sin = Math.sin(r);
-	    } else {
-	      cos = 1;
-	      sin = 0;
-	    }
-	    if (skewX || skewY) {
-	      skewX *= Matrix2D.DEG_TO_RAD;
-	      skewY *= Matrix2D.DEG_TO_RAD;
-	      this.append(Math.cos(skewY), Math.sin(skewY), -Math.sin(skewX), Math.cos(skewX), x, y);
-	      this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, 0, 0);
-	    } else {
-	      this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, x, y);
-	    }
-	    if (pivotX || pivotY) {
-	      this.dx -= pivotX * this.m11 + pivotY * this.m21;
-	      this.dy -= pivotX * this.m12 + pivotY * this.m22;
-	    }
-	    return this;
-	  };
-	
-	  /*
-	  Appends the specified matrix properties with this matrix. All parameters are required.
-	  @method append
-	  @param {Number} m11
-	  @param {Number} m12
-	  @param {Number} m21
-	  @param {Number} m22
-	  @param {Number} dx
-	  @param {Number} dy
-	  @return {Matrix2D} This matrix. Useful for chaining method calls.
-	  */
-	
-	
-	  Matrix2D.prototype.append = function(m11, m12, m21, m22, dx, dy) {
-	    var a1, b1, c1, d1;
-	    a1 = this.m11;
-	    b1 = this.m12;
-	    c1 = this.m21;
-	    d1 = this.m22;
-	    this.m11 = m11 * a1 + m12 * c1;
-	    this.m12 = m11 * b1 + m12 * d1;
-	    this.m21 = m21 * a1 + m22 * c1;
-	    this.m22 = m21 * b1 + m22 * d1;
-	    this.dx = dx * a1 + dy * c1 + this.dx;
-	    this.dy = dx * b1 + dy * d1 + this.dy;
-	    return this;
-	  };
-	
-	  /*
-	  Inverts the matrix, causing it to perform the opposite transformation.
-	  @method invert
-	  @return {Matrix2D} this
-	  */
-	
-	
-	  Matrix2D.prototype.invert = function() {
-	    var a1, b1, c1, d1, n, tx1;
-	    a1 = this.m11;
-	    b1 = this.m12;
-	    c1 = this.m21;
-	    d1 = this.m22;
-	    tx1 = this.dx;
-	    n = a1 * d1 - b1 * c1;
-	    this.m11 = d1 / n;
-	    this.m12 = -b1 / n;
-	    this.m21 = -c1 / n;
-	    this.m22 = a1 / n;
-	    this.dx = (c1 * this.dy - d1 * tx1) / n;
-	    this.dy = -(a1 * this.dy - b1 * tx1) / n;
-	    return this;
-	  };
-	
-	  /*
-	  Clone Matrix2D instance
-	  @return {Matrix2D}
-	  */
-	
-	
-	  Matrix2D.prototype.clone = function() {
-	    return new Matrix2D(this.m11, this.m12, this.m21, this.m22, this.dx, this.dy);
-	  };
-	
-	  /*
-	  Reset matrix to it's identity
-	  @return {Matrix2D} this
-	  */
-	
-	
-	  Matrix2D.prototype.identity = function() {
-	    this.m11 = this.m22 = 1;
-	    this.m12 = this.m21 = this.dx = this.dy = 0;
-	    return this;
-	  };
-	
-	  Matrix2D.identity = new Matrix2D(1, 0, 0, 1, 0, 0);
-	
-	  return Matrix2D;
-	
-	})();
-	
-	module.exports = Matrix2D;
-
-
-/***/ },
-/* 13 */
-/*!**********************************!*\
-  !*** ./src/math/vector2d.coffee ***!
-  \**********************************/
-/***/ function(module, exports, require) {
-
-	/*
-	2D Vector manipulations
-	
-	@note GameCore.exports.Math.Vector2D
-	*/
-	
-	var Vector2d;
-	
-	Vector2d = (function() {
-	  function Vector2d(x, y) {
-	    this.x = x != null ? x : 0;
-	    this.y = y != null ? y : 0;
-	    /*
-	    Get the magnitude of this vector
-	    @attribute length
-	    @readonly
-	    */
-	
-	    Object.defineProperty(this, "length", {
-	      get: function() {
-	        return Math.sqrt((this.x * this.x) + (this.y * this.y));
-	      },
-	      configurable: true
-	    });
-	    /*
-	    Get this vector with a magnitude of 1.
-	    @attribute normalized
-	    @readonly
-	    */
-	
-	    Object.defineProperty(this, "normalized", {
-	      get: function() {
-	        var magnitude;
-	        magnitude = this.length;
-	        return new Vector2d(this.x / magnitude, this.y / magnitude);
-	      },
-	      configurable: true
-	    });
-	  }
-	
-	  /*
-	  @method set
-	  @param {Number} x
-	  @param {Number} y
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.set = function(x, y) {
-	    this.x = x;
-	    this.y = y;
-	    return this;
-	  };
-	
-	  /*
-	  @method sum
-	  @param {Vector2d} vector2d
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.subtract = function(vector2d) {
-	    this.x -= vector2d.x;
-	    this.y -= vector2d.y;
-	    return this;
-	  };
-	
-	  /*
-	  @method sum
-	  @param {Vector2d} vector2d
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.sum = function(vector2d) {
-	    this.x += vector2d.x;
-	    this.y += vector2d.y;
-	    return this;
-	  };
-	
-	  /*
-	  @method scale
-	  @param {Number} x (or x y)
-	  @param {Number} y
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.scale = function(x, y) {
-	    this.x *= x;
-	    this.y *= y || x;
-	    return this;
-	  };
-	
-	  /*
-	  @method clone
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.clone = function() {
-	    return new Vector2d(this.x, this.y);
-	  };
-	
-	  /*
-	  Return unit vector
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.unit = function() {
-	    return new Vector2d(Math.cos(this.x), Math.sin(this.y));
-	  };
-	
-	  /*
-	  Normalize this vector
-	  @return {Vector2d}
-	  */
-	
-	
-	  Vector2d.prototype.normalize = function() {
-	    var normal;
-	    normal = this.normalized;
-	    this.x = normal.x;
-	    this.y = normal.y;
-	    return this;
-	  };
-	
-	  /*
-	  Get the distance between this vector and the argument vector
-	  @param {Vector2d} vector
-	  @return {Number}
-	  */
-	
-	
-	  Vector2d.distance = function(v1, v2) {
-	    var xdiff, ydiff;
-	    xdiff = v1.x - v2.x;
-	    ydiff = v1.y - v2.y;
-	    return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
-	  };
-	
-	  /*
-	  @method toString
-	  @return {String}
-	  */
-	
-	
-	  Vector2d.prototype.toString = function() {
-	    return "#<Vector2d @x=" + this.x + ", @y=" + this.y + ">";
-	  };
-	
-	  Vector2d.LEFT = new Vector2d(-1, 0);
-	
-	  Vector2d.RIGHT = new Vector2d(1, 0);
-	
-	  Vector2d.TOP = new Vector2d(0, -1);
-	
-	  Vector2d.BOTTOM = new Vector2d(0, 1);
-	
-	  return Vector2d;
-	
-	})();
-	
-	module.exports = Vector2d;
-
-
-/***/ },
-/* 14 */
-/*!******************************!*\
-  !*** ./src/math/math.coffee ***!
-  \******************************/
-/***/ function(module, exports, require) {
-
-	/*
-	Mathematical functions
-	
-	@note GameCore.exports.Math.Math
-	
-	@see http://docs.closure-library.googlecode.com/git-history/418ef20b29e8f3ebb5121266ec7206ae6943d28d/closure_goog_math_math.js.source.html
-	*/
-	
-	var Mathematics;
-	
-	Mathematics = (function() {
-	  function Mathematics() {}
-	
-	  /*
-	  Clamping a number into a limits
-	  
-	  @method clamp
-	  @param {Number} num
-	  @param {Number} min
-	  @param {Number} max
-	  @return {Number}
-	  */
-	
-	
-	  Mathematics.clamp = function(num, min, max) {
-	    return Math.min(Math.max(num, min), max);
-	  };
-	
-	  /*
-	  Alias to @clamp(num, 0, 1)
-	  
-	  @method clamp01
-	  @param {Number} num
-	  @return {Number}
-	  */
-	
-	
-	  Mathematics.clamp01 = function(num) {
-	    return this.clamp(num, 0, 1);
-	  };
-	
-	  /*
-	  Returns a random integer greater than or equal to $min and less than $max.
-	  
-	  @param {Number} a  The lower bound for the random integer inclusive (default=0).
-	  @param {Number} a  The upper bound for the random integer exlusive (default=1000).
-	  @return {Number} A random integer N such that $min <= N < $max.
-	  */
-	
-	
-	  Mathematics.randomInt = function(min, max) {
-	    if (min == null) {
-	      min = 0;
-	    }
-	    if (max == null) {
-	      max = 100;
-	    }
-	    return Math.floor(min + Math.random() * (max - min));
-	  };
-	
-	  /*
-	  The % operator in JavaScript returns the remainder of a / b, but differs from
-	  some other languages in that the result will have the same sign as the
-	  dividend. For example, -1 % 8 == -1, whereas in some other languages
-	  (such as Python) the result would be 7. This function emulates the more
-	  correct modulo behavior, which is useful for certain applications such as
-	  calculating an offset index in a circular list.
-	   
-	  @param {number} a The dividend.
-	  @param {number} b The divisor.
-	  @return {number} a % b where the result is between 0 and b (either 0 <= x < b
-	    or b < x <= 0, depending on the sign of b).
-	  */
-	
-	
-	  Mathematics.modulo = function(a, b) {
-	    var r;
-	    r = a % b;
-	    if (r * b < 0) {
-	      return r + b;
-	    } else {
-	      return r;
-	    }
-	  };
-	
-	  /*
-	  Performs linear interpolation between values a and b. Returns the value
-	  between a and b proportional to x (when x is between 0 and 1. When x is
-	  outside this range, the return value is a linear extrapolation).
-	  
-	  @param {number} a A number.
-	  @param {number} b A number.
-	  @param {number} x The proportion between a and b.
-	  @return {number} The interpolated value between a and b.
-	  */
-	
-	
-	  Mathematics.lerp = function(a, b, x) {
-	    return a + x * (b - a);
-	  };
-	
-	  /*
-	  Tests whether the two values are equal to each other, within a certain
-	  tolerance to adjust for floating pount errors.
-	  
-	  @param {Number} a A number.
-	  @param {Number} b A number.
-	  @param {Number=} opt_tolerance Optional tolerance range.
-	      Defaults to 0.000001. If specified, should be greater than 0.
-	  @return {Boolean} Whether $a and $b are nearly equal.
-	  */
-	
-	
-	  Mathematics.nearlyEquals = function(a, b, opt_tolerance) {
-	    if (opt_tolerance == null) {
-	      opt_tolerance = 0.000001;
-	    }
-	    return Math.abs(a - b) <= opt_tolerance;
-	  };
-	
-	  return Mathematics;
-	
-	})();
-	
-	module.exports = Mathematics;
-
-
-/***/ },
-/* 15 */
 /*!******************************!*\
   !*** ./src/ui/widget.coffee ***!
   \******************************/
@@ -1794,13 +1302,13 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	UUID = require(/*! ../math/uuid */ 9);
+	UUID = require(/*! ../math/uuid */ 10);
 	
-	Events = require(/*! ../core/events/dispatcher */ 8);
+	Events = require(/*! ../core/events/dispatcher */ 9);
 	
-	Vector2d = require(/*! ../math/vector2d */ 13);
+	Vector2d = require(/*! ../math/vector2d */ 18);
 	
-	Matrix2d = require(/*! ../math/matrix2d */ 12);
+	Matrix2d = require(/*! ../math/matrix2d */ 17);
 	
 	Support = require(/*! ../core/support */ 1);
 	
@@ -2008,7 +1516,7 @@
 
 
 /***/ },
-/* 16 */
+/* 13 */
 /*!*********************************!*\
   !*** ./src/ui/container.coffee ***!
   \*********************************/
@@ -2018,7 +1526,7 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Widget = require(/*! ./widget */ 15);
+	Widget = require(/*! ./widget */ 12);
 	
 	/*
 	Base widgets container
@@ -2066,7 +1574,7 @@
 
 
 /***/ },
-/* 17 */
+/* 14 */
 /*!****************************!*\
   !*** ./src/ui/text.coffee ***!
   \****************************/
@@ -2076,7 +1584,7 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Widget = require(/*! ./widget */ 15);
+	Widget = require(/*! ./widget */ 12);
 	
 	Color = require(/*! ../utils/color */ 20);
 	
@@ -2316,7 +1824,7 @@
 	
 	
 	  Text.prototype.toString = function() {
-	    return "<Text (" + this.id + "): " + this.text + ">";
+	    return "" + this.text;
 	  };
 	
 	  Text.BASELINE = BASELINE;
@@ -2351,7 +1859,7 @@
 
 
 /***/ },
-/* 18 */
+/* 15 */
 /*!******************************!*\
   !*** ./src/ui/sprite.coffee ***!
   \******************************/
@@ -2361,7 +1869,7 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Widget = require(/*! ./widget */ 15);
+	Widget = require(/*! ./widget */ 12);
 	
 	Color = require(/*! ../utils/color */ 20);
 	
@@ -2436,7 +1944,7 @@
 
 
 /***/ },
-/* 19 */
+/* 16 */
 /*!****************************************!*\
   !*** ./src/ui/geometry/exports.coffee ***!
   \****************************************/
@@ -2446,6 +1954,498 @@
 	  Circle: require(/*! ./circle */ 25),
 	  Rect: require(/*! ./rect */ 26)
 	};
+
+
+/***/ },
+/* 17 */
+/*!**********************************!*\
+  !*** ./src/math/matrix2d.coffee ***!
+  \**********************************/
+/***/ function(module, exports, require) {
+
+	/*
+	2D Matrix manipulations
+	
+	@note GameCore.exports.Math.Matrix2D
+	*/
+	
+	var Matrix2D;
+	
+	Matrix2D = (function() {
+	  /*           
+	  Multiplier for converting degrees to radians. Used internally by Matrix2D.
+	  
+	  @attribute DEG_TO_RAD
+	  @static
+	  @readonly
+	  @return {Number}
+	  */
+	
+	  Matrix2D.DEG_TO_RAD = Math.PI / 180;
+	
+	  /*
+	  Based on [EaselJS](https://github.com/CreateJS/EaselJS/) Matrix2D implementation.
+	  
+	  @class Matrix2D
+	  @constructor
+	  
+	  @param {Number} m11
+	  @param {Number} m12
+	  @param {Number} m21
+	  @param {Number} m22
+	  @param {Number} dx
+	  @param {Number} dy
+	  */
+	
+	
+	  function Matrix2D(m11, m12, m21, m22, dx, dy) {
+	    if (m11 !== null) {
+	      this.m11 = m11;
+	    }
+	    this.m12 = m12 || 0;
+	    this.m21 = m21 || 0;
+	    if (m22 !== null) {
+	      this.m22 = m22;
+	    }
+	    this.dx = dx || 0;
+	    this.dy = dy || 0;
+	  }
+	
+	  /*
+	  Generates matrix properties from the specified display object transform properties, and appends them with this matrix.
+	  For example, you can use this to generate m11 matrix from m11 display object: var mtx = new Matrix2D();
+	  mtx.appendTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation);
+	  @method appendTransform
+	  @param {Number} x
+	  @param {Number} y
+	  @param {Number} scaleX
+	  @param {Number} scaleY
+	  @param {Number} rotation
+	  @param {Number} skewX
+	  @param {Number} skewY
+	  @param {Number} pivotX Optional.
+	  @param {Number} pivotY Optional.
+	  @return {Matrix2D} This matrix. Useful for chaining method calls.
+	  */
+	
+	
+	  Matrix2D.prototype.appendTransform = function(x, y, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) {
+	    var cos, r, sin;
+	    cos = void 0;
+	    sin = void 0;
+	    r = void 0;
+	    if (rotation % 360) {
+	      r = rotation * Matrix2D.DEG_TO_RAD;
+	      cos = Math.cos(r);
+	      sin = Math.sin(r);
+	    } else {
+	      cos = 1;
+	      sin = 0;
+	    }
+	    if (skewX || skewY) {
+	      skewX *= Matrix2D.DEG_TO_RAD;
+	      skewY *= Matrix2D.DEG_TO_RAD;
+	      this.append(Math.cos(skewY), Math.sin(skewY), -Math.sin(skewX), Math.cos(skewX), x, y);
+	      this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, 0, 0);
+	    } else {
+	      this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, x, y);
+	    }
+	    if (pivotX || pivotY) {
+	      this.dx -= pivotX * this.m11 + pivotY * this.m21;
+	      this.dy -= pivotX * this.m12 + pivotY * this.m22;
+	    }
+	    return this;
+	  };
+	
+	  /*
+	  Appends the specified matrix properties with this matrix. All parameters are required.
+	  @method append
+	  @param {Number} m11
+	  @param {Number} m12
+	  @param {Number} m21
+	  @param {Number} m22
+	  @param {Number} dx
+	  @param {Number} dy
+	  @return {Matrix2D} This matrix. Useful for chaining method calls.
+	  */
+	
+	
+	  Matrix2D.prototype.append = function(m11, m12, m21, m22, dx, dy) {
+	    var a1, b1, c1, d1;
+	    a1 = this.m11;
+	    b1 = this.m12;
+	    c1 = this.m21;
+	    d1 = this.m22;
+	    this.m11 = m11 * a1 + m12 * c1;
+	    this.m12 = m11 * b1 + m12 * d1;
+	    this.m21 = m21 * a1 + m22 * c1;
+	    this.m22 = m21 * b1 + m22 * d1;
+	    this.dx = dx * a1 + dy * c1 + this.dx;
+	    this.dy = dx * b1 + dy * d1 + this.dy;
+	    return this;
+	  };
+	
+	  /*
+	  Inverts the matrix, causing it to perform the opposite transformation.
+	  @method invert
+	  @return {Matrix2D} this
+	  */
+	
+	
+	  Matrix2D.prototype.invert = function() {
+	    var a1, b1, c1, d1, n, tx1;
+	    a1 = this.m11;
+	    b1 = this.m12;
+	    c1 = this.m21;
+	    d1 = this.m22;
+	    tx1 = this.dx;
+	    n = a1 * d1 - b1 * c1;
+	    this.m11 = d1 / n;
+	    this.m12 = -b1 / n;
+	    this.m21 = -c1 / n;
+	    this.m22 = a1 / n;
+	    this.dx = (c1 * this.dy - d1 * tx1) / n;
+	    this.dy = -(a1 * this.dy - b1 * tx1) / n;
+	    return this;
+	  };
+	
+	  /*
+	  Clone Matrix2D instance
+	  @return {Matrix2D}
+	  */
+	
+	
+	  Matrix2D.prototype.clone = function() {
+	    return new Matrix2D(this.m11, this.m12, this.m21, this.m22, this.dx, this.dy);
+	  };
+	
+	  /*
+	  Reset matrix to it's identity
+	  @return {Matrix2D} this
+	  */
+	
+	
+	  Matrix2D.prototype.identity = function() {
+	    this.m11 = this.m22 = 1;
+	    this.m12 = this.m21 = this.dx = this.dy = 0;
+	    return this;
+	  };
+	
+	  Matrix2D.identity = new Matrix2D(1, 0, 0, 1, 0, 0);
+	
+	  return Matrix2D;
+	
+	})();
+	
+	module.exports = Matrix2D;
+
+
+/***/ },
+/* 18 */
+/*!**********************************!*\
+  !*** ./src/math/vector2d.coffee ***!
+  \**********************************/
+/***/ function(module, exports, require) {
+
+	/*
+	2D Vector manipulations
+	
+	@note GameCore.exports.Math.Vector2D
+	*/
+	
+	var Vector2d;
+	
+	Vector2d = (function() {
+	  function Vector2d(x, y) {
+	    this.x = x != null ? x : 0;
+	    this.y = y != null ? y : 0;
+	    /*
+	    Get the magnitude of this vector
+	    @attribute length
+	    @readonly
+	    */
+	
+	    Object.defineProperty(this, "length", {
+	      get: function() {
+	        return Math.sqrt((this.x * this.x) + (this.y * this.y));
+	      },
+	      configurable: true
+	    });
+	    /*
+	    Get this vector with a magnitude of 1.
+	    @attribute normalized
+	    @readonly
+	    */
+	
+	    Object.defineProperty(this, "normalized", {
+	      get: function() {
+	        var magnitude;
+	        magnitude = this.length;
+	        return new Vector2d(this.x / magnitude, this.y / magnitude);
+	      },
+	      configurable: true
+	    });
+	  }
+	
+	  /*
+	  @method set
+	  @param {Number} x
+	  @param {Number} y
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.set = function(x, y) {
+	    this.x = x;
+	    this.y = y;
+	    return this;
+	  };
+	
+	  /*
+	  @method sum
+	  @param {Vector2d} vector2d
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.subtract = function(vector2d) {
+	    this.x -= vector2d.x;
+	    this.y -= vector2d.y;
+	    return this;
+	  };
+	
+	  /*
+	  @method sum
+	  @param {Vector2d} vector2d
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.sum = function(vector2d) {
+	    this.x += vector2d.x;
+	    this.y += vector2d.y;
+	    return this;
+	  };
+	
+	  /*
+	  @method scale
+	  @param {Number} x (or x y)
+	  @param {Number} y
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.scale = function(x, y) {
+	    this.x *= x;
+	    this.y *= y || x;
+	    return this;
+	  };
+	
+	  /*
+	  @method clone
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.clone = function() {
+	    return new Vector2d(this.x, this.y);
+	  };
+	
+	  /*
+	  Return unit vector
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.unit = function() {
+	    return new Vector2d(Math.cos(this.x), Math.sin(this.y));
+	  };
+	
+	  /*
+	  Normalize this vector
+	  @return {Vector2d}
+	  */
+	
+	
+	  Vector2d.prototype.normalize = function() {
+	    var normal;
+	    normal = this.normalized;
+	    this.x = normal.x;
+	    this.y = normal.y;
+	    return this;
+	  };
+	
+	  /*
+	  Get the distance between this vector and the argument vector
+	  @param {Vector2d} vector
+	  @return {Number}
+	  */
+	
+	
+	  Vector2d.distance = function(v1, v2) {
+	    var xdiff, ydiff;
+	    xdiff = v1.x - v2.x;
+	    ydiff = v1.y - v2.y;
+	    return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+	  };
+	
+	  /*
+	  @method toString
+	  @return {String}
+	  */
+	
+	
+	  Vector2d.prototype.toString = function() {
+	    return "#<Vector2d @x=" + this.x + ", @y=" + this.y + ">";
+	  };
+	
+	  Vector2d.LEFT = new Vector2d(-1, 0);
+	
+	  Vector2d.RIGHT = new Vector2d(1, 0);
+	
+	  Vector2d.TOP = new Vector2d(0, -1);
+	
+	  Vector2d.BOTTOM = new Vector2d(0, 1);
+	
+	  return Vector2d;
+	
+	})();
+	
+	module.exports = Vector2d;
+
+
+/***/ },
+/* 19 */
+/*!******************************!*\
+  !*** ./src/math/math.coffee ***!
+  \******************************/
+/***/ function(module, exports, require) {
+
+	/*
+	Mathematical functions
+	
+	@note GameCore.exports.Math.Math
+	
+	@see http://docs.closure-library.googlecode.com/git-history/418ef20b29e8f3ebb5121266ec7206ae6943d28d/closure_goog_math_math.js.source.html
+	*/
+	
+	var Mathematics;
+	
+	Mathematics = (function() {
+	  function Mathematics() {}
+	
+	  /*
+	  Clamping a number into a limits
+	  
+	  @method clamp
+	  @param {Number} num
+	  @param {Number} min
+	  @param {Number} max
+	  @return {Number}
+	  */
+	
+	
+	  Mathematics.clamp = function(num, min, max) {
+	    return Math.min(Math.max(num, min), max);
+	  };
+	
+	  /*
+	  Alias to @clamp(num, 0, 1)
+	  
+	  @method clamp01
+	  @param {Number} num
+	  @return {Number}
+	  */
+	
+	
+	  Mathematics.clamp01 = function(num) {
+	    return this.clamp(num, 0, 1);
+	  };
+	
+	  /*
+	  Returns a random integer greater than or equal to $min and less than $max.
+	  
+	  @param {Number} a  The lower bound for the random integer inclusive (default=0).
+	  @param {Number} a  The upper bound for the random integer exlusive (default=1000).
+	  @return {Number} A random integer N such that $min <= N < $max.
+	  */
+	
+	
+	  Mathematics.randomInt = function(min, max) {
+	    if (min == null) {
+	      min = 0;
+	    }
+	    if (max == null) {
+	      max = 100;
+	    }
+	    return Math.floor(min + Math.random() * (max - min));
+	  };
+	
+	  /*
+	  The % operator in JavaScript returns the remainder of a / b, but differs from
+	  some other languages in that the result will have the same sign as the
+	  dividend. For example, -1 % 8 == -1, whereas in some other languages
+	  (such as Python) the result would be 7. This function emulates the more
+	  correct modulo behavior, which is useful for certain applications such as
+	  calculating an offset index in a circular list.
+	   
+	  @param {number} a The dividend.
+	  @param {number} b The divisor.
+	  @return {number} a % b where the result is between 0 and b (either 0 <= x < b
+	    or b < x <= 0, depending on the sign of b).
+	  */
+	
+	
+	  Mathematics.modulo = function(a, b) {
+	    var r;
+	    r = a % b;
+	    if (r * b < 0) {
+	      return r + b;
+	    } else {
+	      return r;
+	    }
+	  };
+	
+	  /*
+	  Performs linear interpolation between values a and b. Returns the value
+	  between a and b proportional to x (when x is between 0 and 1. When x is
+	  outside this range, the return value is a linear extrapolation).
+	  
+	  @param {number} a A number.
+	  @param {number} b A number.
+	  @param {number} x The proportion between a and b.
+	  @return {number} The interpolated value between a and b.
+	  */
+	
+	
+	  Mathematics.lerp = function(a, b, x) {
+	    return a + x * (b - a);
+	  };
+	
+	  /*
+	  Tests whether the two values are equal to each other, within a certain
+	  tolerance to adjust for floating pount errors.
+	  
+	  @param {Number} a A number.
+	  @param {Number} b A number.
+	  @param {Number=} opt_tolerance Optional tolerance range.
+	      Defaults to 0.000001. If specified, should be greater than 0.
+	  @return {Boolean} Whether $a and $b are nearly equal.
+	  */
+	
+	
+	  Mathematics.nearlyEquals = function(a, b, opt_tolerance) {
+	    if (opt_tolerance == null) {
+	      opt_tolerance = 0.000001;
+	    }
+	    return Math.abs(a - b) <= opt_tolerance;
+	  };
+	
+	  return Mathematics;
+	
+	})();
+	
+	module.exports = Mathematics;
 
 
 /***/ },
@@ -2462,7 +2462,7 @@
 	
 	var COLOR_NAMES, COLOR_NAMES_F, CSS_INTEGER, CSS_NUMBER, CSS_UNIT, Color, Mathematic, PERMISSIVE_MATCH3, PERMISSIVE_MATCH4, bound01, convertToPercentage, flip, isOnePointZero, isPercentage, matchers, pad2, parseHex, stringInputToObject, trimLeft, trimRight;
 	
-	Mathematic = require(/*! ../math/math */ 14);
+	Mathematic = require(/*! ../math/math */ 19);
 	
 	/*
 	*/
@@ -3614,9 +3614,9 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Mathmetics = require(/*! ../math/math */ 14);
+	Mathmetics = require(/*! ../math/math */ 19);
 	
-	Events = require(/*! ../core/events/dispatcher */ 8);
+	Events = require(/*! ../core/events/dispatcher */ 9);
 	
 	FONT_CACHE = {};
 	
@@ -4221,7 +4221,7 @@
 
 	var Mouse, MouseCursor, MouseEvents, Vector2d;
 	
-	Vector2d = require(/*! ../math/vector2d */ 13);
+	Vector2d = require(/*! ../math/vector2d */ 18);
 	
 	MouseCursor = (function() {
 	  function MouseCursor(mouse, x, y) {
@@ -4231,6 +4231,7 @@
 	  }
 	
 	  MouseCursor.prototype.handleEvent = function(e) {
+	    console.log(e);
 	    this.x = e.offsetX * this.mouse.core.stage.viewport.scale.x;
 	    return this.y = e.offsetY * this.mouse.core.stage.viewport.scale.y;
 	  };
@@ -4306,7 +4307,7 @@
 	    }
 	    this.core.mouse = this;
 	    this.handlers = {};
-	    this.cursor = new MouseCursor();
+	    this.cursor = new MouseCursor(this, -1, -1);
 	    this.lastEvent = null;
 	    a = this;
 	    this.updateColliderPosition = function(e) {
@@ -4332,18 +4333,22 @@
 	      var handlers, i, length, _results;
 	      handlers = mi.handlers[e.type];
 	      mi.lastEvent = e;
-	      mi.e;
+	      mi.cursor.handleEvent(e);
 	      i = 0;
 	      length = handlers.length;
 	      _results = [];
 	      while (i < length) {
-	        if (handlers[i].target.visible && Mouse.isOver(handlers[i].target)) {
+	        if (handlers[i].target.visible && mi.isOver(handlers[i].target)) {
 	          handlers[i].handler.apply(handlers[i].target, [e]);
 	        }
 	        _results.push(++i);
 	      }
 	      return _results;
 	    };
+	  };
+	
+	  Mouse.prototype.isOver = function(target) {
+	    return console.log(target, this.cursor);
 	  };
 	
 	  return Mouse;
@@ -4613,7 +4618,7 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Widget = require(/*! ../widget */ 15);
+	Widget = require(/*! ../widget */ 12);
 	
 	module.exports = Circle = (function(_super) {
 	  __extends(Circle, _super);
@@ -4628,7 +4633,7 @@
 	  Circle.prototype._render = function(ctx) {
 	    ctx.beginPath();
 	    ctx.arc(this.radius, this.radius, this.radius, 0, 2 * Math.PI);
-	    ctx.fillStyle = this.color;
+	    ctx.fillStyle = this.color.toString();
 	    return ctx.fill();
 	  };
 	
@@ -4648,7 +4653,7 @@
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 	
-	Widget = require(/*! ../widget */ 15);
+	Widget = require(/*! ../widget */ 12);
 	
 	module.exports = Rect = (function(_super) {
 	  __extends(Rect, _super);
@@ -4675,7 +4680,7 @@
 	
 	  Rect.prototype._render = function(ctx) {
 	    if (this.color) {
-	      ctx.fillStyle = this.color;
+	      ctx.fillStyle = this.color.toString();
 	    }
 	    return ctx.fillRect(0, 0, this.width, this.height);
 	  };
