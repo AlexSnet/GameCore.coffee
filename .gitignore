@@ -4,3 +4,6 @@ doc
 *.gz
 example
 node_modules
+.DS_Store
+*.swp
+dist/
