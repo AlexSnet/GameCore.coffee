@@ -99,7 +99,8 @@ module.exports = class GameCore extends Events
                 if b == true
                     window.addEventListener "resize", @_fullWindowSize_resizer
                     @_in_the_fullscreen_now = true
-                    @setSize document.width, document.height
+                    viewport = support.getViewportSize()
+                    @setSize viewport.width, viewport.height
                 else
                     window.removeEventListener "resize", @_fullWindowSize_resizer
                     @_in_the_fullscreen_now = false
@@ -111,27 +112,34 @@ module.exports = class GameCore extends Events
         ###
         Object.defineProperty @, "width",
             get: ->
-                @options.canvas.width
+                @_logicalWidth or @options.canvas.width
 
             set: (width) ->
-                @options.canvas.width = width     
-                @options.canvas.style.width = width + "px"         
+                @_logicalWidth = width
+                ratio = @getPixelRatio()
+                @options.canvas.width = Math.round(width * ratio)
+                @options.canvas.style.width = width + "px"
+                @context.setPixelRatio ratio if @_context
 
         ###
         ###
         Object.defineProperty @, "height",
             get: ->
-                @options.canvas.height
+                @_logicalHeight or @options.canvas.height
 
             set: (height) ->
-                @options.canvas.height = height
-                @options.canvas.style.height = height + "px"     
+                @_logicalHeight = height
+                ratio = @getPixelRatio()
+                @options.canvas.height = Math.round(height * ratio)
+                @options.canvas.style.height = height + "px"
+                @context.setPixelRatio ratio if @_context
 
         ###
         ###
         if @fullWindowSize
-            @options.width = window.width
-            @options.height = window.height
+            viewport = support.getViewportSize()
+            @options.width = viewport.width
+            @options.height = viewport.height
         @setSize @options.width, @options.height
 
         ###
@@ -142,7 +150,9 @@ module.exports = class GameCore extends Events
         Object.defineProperty @, "context",
             get: ->
                 if not @_context
-                    @_context = new context2d canvas:@options.canvas
+                    @_context = new context2d
+                        canvas: @options.canvas
+                        pixelRatio: @getPixelRatio()
                 @_context
 
         ###
@@ -214,9 +224,21 @@ module.exports = class GameCore extends Events
         @height = height
         @dispatchEvent 'sizeChanged'
 
+    getPixelRatio: () ->
+        if @options.hiDPI is false
+            1
+        else if @options.pixelRatio?
+            @options.pixelRatio
+        else if support.retina
+            window.devicePixelRatio or 1
+        else
+            1
+
     _fullWindowSize_resizer: ()->
         gci = @
-        (e) -> gci.setSize window.width, window.height
+        (e) ->
+            viewport = support.getViewportSize()
+            gci.setSize viewport.width, viewport.height
     
     ###
     Creates a canvas element

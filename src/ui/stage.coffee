@@ -1,4 +1,5 @@
 container = require "../ui/container"
+support = require "../core/support"
 
 ###
 Stage container
@@ -13,16 +14,16 @@ class Stage extends container
         @shaders = []
 
         @canvas = document.createElement 'canvas'
-        @ctx = @canvas.getContext '2d'
+        @ctx = support.getContext2d @canvas, willReadFrequently: true
 
     addShader: (shader)->
         @shaders.push shader
 
     render:(ctx)->
         @width = @width or ctx.canvas.width
-        @height= @width or ctx.canvas.height
+        @height= @height or ctx.canvas.height
 
-        if @shaders
+        if @shaders.length
             @canvas.width = @width
             @canvas.height= @height
 
