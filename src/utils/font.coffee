@@ -5,6 +5,7 @@ Inspired by Font.js by  Mike "Pomax" Kamermans
 
 Mathmetics = require "../math/math"
 Events = require "../core/events/dispatcher"
+Support = require "../core/support"
 
 FONT_CACHE = {}
 FONT_DEFAULTS =
@@ -466,7 +467,7 @@ module.exports = class Font extends Events
             # data returns, and we need a callback just to get
             # string metrics, which is about as far from desired
             # as is possible.
-            context = canvas.getContext("2d")
+            context = Support.getContext2d canvas, willReadFrequently: true
             context.font = "1em '" + @fontFamily + "'"
             context.fillStyle = "white"
             context.fillRect -1, -1, quad + 2, quad + 2

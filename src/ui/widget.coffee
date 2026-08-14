@@ -153,11 +153,9 @@ module.exports = class Widget extends Events
 
         ctx.transform mtx.m11, mtx.m12, mtx.m21, mtx.m22, mtx.dx, mtx.dy
         ctx.rotate 0.0174532925 * @rotation
-        ctx.setAlpha @alpha
+        ctx.globalAlpha = @alpha
         ctx.globalCompositeOperation = @compositeOperation    if @compositeOperation
-        ctx[Support.imageSmoothingEnabled] = @smooth
-
-        ctx.setAlpha @alpha
+        Support.setImageSmoothing ctx, @smooth
         @_render(ctx) if @_render
 
         ctx.scale 1/@scale.x, 1/@scale.y

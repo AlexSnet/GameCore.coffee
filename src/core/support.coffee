@@ -157,8 +157,94 @@ if not Object.defineProperty
     ERRORS.append "Browser doesnt support Object.defineProperty."
 
 # 2. Do we have Canvas2D available?
-if not document.createElement("canvas").getContext
+_testCanvas = document.createElement("canvas")
+_testContext = null
+try
+    _testContext = _testCanvas.getContext("2d")
+catch error
+    _testContext = null
+if not _testContext
     ERRORS.append "Browser doesnt support <canvas> and the Canvas2D API."
+
+###
+Returns a CanvasRenderingContext2D using modern context attributes when supported.
+@param {HTMLCanvasElement} canvas
+@param {Object} [options]
+@param {Boolean} [options.willReadFrequently] Hint for frequent getImageData/readbacks
+@param {Boolean} [options.alpha] Whether the canvas has an alpha channel
+@param {Boolean} [options.desynchronized] Low-latency rendering hint
+@param {String} [options.colorSpace] Display color space (e.g. "srgb")
+@return {CanvasRenderingContext2D|null}
+###
+getContext2d = (canvas, options={}) ->
+    return null unless canvas?.getContext
+
+    contextOptions = {}
+    contextOptions.willReadFrequently = true if options.willReadFrequently
+    contextOptions.alpha = options.alpha if options.alpha?
+    contextOptions.desynchronized = options.desynchronized if options.desynchronized?
+    contextOptions.colorSpace = options.colorSpace if options.colorSpace?
+
+    ctx = null
+    if Object.keys(contextOptions).length
+        try
+            ctx = canvas.getContext("2d", contextOptions)
+        catch error
+            ctx = null
+
+    ctx ?= canvas.getContext("2d")
+    ctx
+
+###
+Resolves the image smoothing property name for the current browser.
+@return {String|null}
+###
+resolveImageSmoothingProperty = ->
+    probe = getContext2d(document.createElement("canvas"))
+    return null unless probe
+    if "imageSmoothingEnabled" of probe
+        "imageSmoothingEnabled"
+    else if "webkitImageSmoothingEnabled" of probe
+        "webkitImageSmoothingEnabled"
+    else if "mozImageSmoothingEnabled" of probe
+        "mozImageSmoothingEnabled"
+    else if "msImageSmoothingEnabled" of probe
+        "msImageSmoothingEnabled"
+    else
+        null
+
+IMAGE_SMOOTHING_PROPERTY = resolveImageSmoothingProperty()
+
+###
+Sets image smoothing on a 2D context using the standard Canvas API.
+@param {CanvasRenderingContext2D} ctx
+@param {Boolean} enabled
+@param {String} [quality="high"] One of "low", "medium", "high"
+###
+setImageSmoothing = (ctx, enabled, quality="high") ->
+    return unless ctx
+
+    property = IMAGE_SMOOTHING_PROPERTY or "imageSmoothingEnabled"
+    ctx[property] = enabled
+    ctx.imageSmoothingQuality = quality if enabled and "imageSmoothingQuality" of ctx
+
+###
+Resets a 2D context state using the modern reset() API when available.
+@param {CanvasRenderingContext2D} ctx
+###
+resetContext2d = (ctx) ->
+    return unless ctx
+
+    if typeof ctx.reset is "function"
+        ctx.reset()
+    else
+        ctx.setTransform(1, 0, 0, 1, 0, 0)
+        ctx.globalAlpha = 1
+        ctx.globalCompositeOperation = "source-over"
+
+getViewportSize = ->
+    width: window.innerWidth or document.documentElement?.clientWidth or 0
+    height: window.innerHeight or document.documentElement?.clientHeight or 0
 
 
 module.exports = 
@@ -193,7 +279,39 @@ module.exports =
     ###
     retina: window.devicePixelRatio > 1 or window.matchMedia("(min-resolution: 1.1dppx)").matches
 
-    #
-    #     * Misc / Interal use
-    #     
-    imageSmoothingEnabled: prefix("imageSmoothingEnabled")
+    ###
+    Obtain a CanvasRenderingContext2D with modern context attributes.
+    @method getContext2d
+    @static
+    ###
+    getContext2d: getContext2d
+
+    ###
+    Property name for image smoothing on the current browser.
+    @attribute imageSmoothingEnabled
+    @type {String|null}
+    @static
+    @readonly
+    ###
+    imageSmoothingEnabled: IMAGE_SMOOTHING_PROPERTY
+
+    ###
+    Configure image smoothing on a 2D context.
+    @method setImageSmoothing
+    @static
+    ###
+    setImageSmoothing: setImageSmoothing
+
+    ###
+    Reset a 2D context to its default state.
+    @method resetContext2d
+    @static
+    ###
+    resetContext2d: resetContext2d
+
+    ###
+    Current viewport size in CSS pixels.
+    @method getViewportSize
+    @static
+    ###
+    getViewportSize: getViewportSize
