@@ -3,7 +3,7 @@ var path = require("path");
 
 module.exports = {
     entry: {
-	game: path.join(__dirname, 'src', 'gamecore.coffee')
+	gamecore: path.join(__dirname, 'src', 'gamecore.coffee')
     },
     output: {
         path: path.join(__dirname, 'dist'),
