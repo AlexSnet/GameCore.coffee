@@ -51,6 +51,7 @@ jobs:
             --exclude 'libs/codemirror' \
             --exclude 'libs/GameCore' \
             --exclude '.git' \
+            --exclude '.gitmodules' \
             ../playground/ ./
 
           mkdir -p libs/GameCore/dist
