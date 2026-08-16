@@ -178,14 +178,27 @@ rect1.rotation = 45
     </div>
 
     <script>
-      var delay, tpl;
+      var delay, tpl, previewFrame;
+
+      function updatePreview() {
+        if (!tpl) {
+          return;
+        }
+
+        var jsc = CoffeeScript.compile(editor.getValue());
+        previewFrame.srcdoc = tpl.replace('{{code}}', jsc);
+      }
+
       var client = new XMLHttpRequest();
       client.open('GET', './template.html');
-      client.onreadystatechange = function() {
-        tpl = client.responseText;
-      }
+      client.onload = function() {
+        if (client.status === 200) {
+          tpl = client.responseText;
+          updatePreview();
+        }
+      };
       client.send();
-        
+
       // Initialize CodeMirror editor with a nice html5 canvas demo.
       var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
         lineNumbers: true,
@@ -200,20 +213,8 @@ rect1.rotation = 45
         clearTimeout(delay);
         delay = setTimeout(updatePreview, 300);
       });
-      
-      var previewFrame = document.getElementById('preview');
 
-      function updatePreview() {
-        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-        preview.open();
-        preview.clear();
-        var jsc = CoffeeScript.compile(editor.getValue());
-        // var data = "data:text/html;base64," + btoa(tpl.replace('{{code}}', jsc));
-        // previewFrame.src = data;
-        preview.write(tpl.replace('{{code}}', jsc));
-        preview.close();
-      }
-      setTimeout(updatePreview, 300);
+      previewFrame = document.getElementById('preview');
     </script>
   </body>
 </html>
