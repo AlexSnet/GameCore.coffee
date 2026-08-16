@@ -34,7 +34,7 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Update playground bundle
+      - name: Update playground
         run: |
           cd gh-pages
 
@@ -47,8 +47,16 @@ jobs:
             rm -rf .git/modules/libs/GameCore
           fi
 
+          rsync -av --delete \
+            --exclude 'libs/codemirror' \
+            --exclude 'libs/GameCore' \
+            --exclude '.git' \
+            --exclude '.gitmodules' \
+            ../playground/ ./
+
           mkdir -p libs/GameCore/dist
           cp ../dist/gamecore.js libs/GameCore/dist/gamecore.js
+          sed -i "s/__BUILD__/${GITHUB_SHA::7}/g" template.html
 
       - name: Commit and push gh-pages
         env:
