@@ -1,0 +1,71 @@
+name: Deploy gh-pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build GameCore
+        run: npm run build
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Update playground bundle
+        run: |
+          cd gh-pages
+
+          git submodule update --init libs/codemirror
+
+          if [ -f .gitmodules ] && git config -f .gitmodules --get submodule.libs/GameCore.path >/dev/null 2>&1; then
+            git submodule deinit -f libs/GameCore || true
+            git rm -f libs/GameCore || true
+            git config -f .gitmodules --remove-section submodule.libs/GameCore || true
+            rm -rf .git/modules/libs/GameCore
+          fi
+
+          mkdir -p libs/GameCore/dist
+          cp ../dist/gamecore.js libs/GameCore/dist/gamecore.js
+
+      - name: Commit and push gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd gh-pages
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B gh-pages
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to deploy"
+            exit 0
+          fi
+
+          git commit -m "Rebuild GameCore from ${GITHUB_SHA::7}"
+          git push origin gh-pages
